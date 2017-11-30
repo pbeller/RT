@@ -7,3 +7,11 @@ cd
 git clone https://github.com/juschaef/libtowel.git
 cd -
 ```
+
+build avec make
+
+lancer rt avec le fichier scene.json
+
+```
+./rt scene.json
+```
