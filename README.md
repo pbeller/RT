@@ -15,3 +15,5 @@ lancer rt avec le fichier scene.json
 ```
 ./rt scene.json
 ```
+
+la minilibx est celle pour el capitain, penser a la changer en cas d'autre version
