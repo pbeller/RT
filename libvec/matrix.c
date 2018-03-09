@@ -2,6 +2,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+/*
+
+	LIB POUR MATRICES 4x4 DE DOUBLES
+	FONCTIONS OPERATIONNELLES:
+
+	-m_unity => creation + malloc d'une matrice unitaire 4x4
+	-m_scalaire => produit matrice 4x4 par un scalaire
+	-m_prod => produit matriciel de 2 matrices 4x4
+	-m_add => addition de 2 matrices 4x4
+	-m_transpose => transposée d'une matrice 4x4
+	-m_print => affichage d'une matrice 4x4
+	-m_pivot_seek => recherche index du pivot de Gauss dans une matrice 4x4
+
+	FONCTIONS PAS A LA NORME:
+	
+	-m_fill => remplit une matrice 4x4 a partir de 4 lignes (4 arguments max par fonction)
+
+	FONCTIONS EN COURS DE DEV:
+
+	-m_inverse => calcul de l'inverse d'une matrice 4x4 par elimination de Gauss/Jordan
+	-m_det44 => calcul du determinant d'une matrice 4x4
+
+	FONCTIONS MANQUANTES:
+
+	-transformation d'un vecteur par matrice de transfo
+	-multVecMatrix
+	-multDirMatrix
+*/
 
 double 				**m_unity()
 {
