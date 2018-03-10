@@ -14,10 +14,11 @@
 	-m_transpose => transposée d'une matrice 4x4
 	-m_print => affichage d'une matrice 4x4
 	-m_pivot_seek => recherche index du pivot de Gauss dans une matrice 4x4
-
+	-m_fill => remplit une matrice 4x4 depuis un array[16]
+	
 	FONCTIONS PAS A LA NORME:
 	
-	-m_fill => remplit une matrice 4x4 a partir de 4 lignes (4 arguments max par fonction)
+	
 
 	FONCTIONS EN COURS DE DEV:
 
@@ -97,23 +98,25 @@ double		**m_prod(double **a, double **b)
 	return (ret);
 }
 
-double		**m_fill(double *l_0, double *l_1, double *l_2, double *l_3,\
-	double **matrix)
+double		**m_fill(double *data, double **matrix)
 {
 	int		i;
+	int		j;
 
 	matrix = (double **)malloc(sizeof(double *) * 4);
-	i = 0;
-	while (i <= 3)
-		matrix[i++] = (double *)malloc(sizeof(double) * 4);
-	i = 0;
-	while (i <= 3)
+	j = 0;
+	while (j <= 3)
+		matrix[j++] = (double *)malloc(sizeof(double) * 4);
+	j = 0;
+	while (j <= 3)
 	{
-		matrix[0][i] = l_0[i];
-		matrix[1][i] = l_1[i];
-		matrix[2][i] = l_2[i];
-		matrix[3][i] = l_3[i];
-		i++;
+		i = 0;
+		while (i <= 3)
+		{
+			matrix[j][i] = data[4 * j + i];
+			i++;
+		}
+		j++;
 	}
 	return (matrix);
 }
@@ -245,33 +248,35 @@ int					main()
 	double			*line1;
 	double			*line2;
 	double			*line3;
+	double			data[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
 
-
-	
-	line0 = (double *)malloc(sizeof(double) * 4);
-	line1 = (double *)malloc(sizeof(double) * 4);
-	line2 = (double *)malloc(sizeof(double) * 4);
-	line3 = (double *)malloc(sizeof(double) * 4);
-
-	line0[0] = 1;
-	line0[1] = 2;
-	line0[2] = 3;
-	line0[3] = 4;
-	line1[0] = 4;
-	line1[1] = 3;
-	line1[2] = 2;
-	line1[3] = 1;
-	line2[0] = 3;
-	line2[1] = 4;
-	line2[2] = 1;
-	line2[3] = 2;
-	line3[0] = 2;
-	line3[1] = 1;
-	line3[2] = 4;
-	line3[3] = 3;
-	matrix = m_fill(line0, line1, line2, line3, matrix);
+	matrix = m_fill(data, matrix);
 	m_print(matrix);
-	printf("\n");
+
+	// line0 = (double *)malloc(sizeof(double) * 4);
+	// line1 = (double *)malloc(sizeof(double) * 4);
+	// line2 = (double *)malloc(sizeof(double) * 4);
+	// line3 = (double *)malloc(sizeof(double) * 4);
+
+	// line0[0] = 1;
+	// line0[1] = 2;
+	// line0[2] = 3;
+	// line0[3] = 4;
+	// line1[0] = 4;
+	// line1[1] = 3;
+	// line1[2] = 2;
+	// line1[3] = 1;
+	// line2[0] = 3;
+	// line2[1] = 4;
+	// line2[2] = 1;
+	// line2[3] = 2;
+	// line3[0] = 2;
+	// line3[1] = 1;
+	// line3[2] = 4;
+	// line3[3] = 3;
+	// matrix = m_fill(line0, line1, line2, line3, matrix);
+	// m_print(matrix);
+	// printf("\n");
 
 
 	// line0[0] = 4;
@@ -318,7 +323,7 @@ int					main()
 	// m_print(matrix);
 	// matrix_2 = m_unity();
 	// matrix_3 = m_prod(matrix, matrix_2);
-	matrix = m_scalaire(matrix, 2);
-	m_print(matrix);
+	// matrix = m_scalaire(matrix, 2);
+	// m_print(matrix);
 	return (0);
 }
