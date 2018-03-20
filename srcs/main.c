@@ -12,7 +12,6 @@ int 				main(int ac, char **av)
 		fill_env_with_file_path(env, av[1]);
 	env_print(env);
 	env_del(env);
-	(void)ac;
 	return (0);
 
 }
