@@ -17,6 +17,19 @@ void				free_dict_wrapper(void *elem_)
 	twl_dict_del(elem, free);
 }
 
+int					is_valid_type(char *type)
+{
+	char			**types;
+	void			*find;
+
+	types = twl_strsplit(VALIDE_TYPE, ',');
+	find = twl_arr_find(types, twl_strequ_void, type);
+	twl_arr_del(types, free);
+	if (find)
+		return (1);
+	return (0);
+}
+
 char				*clean_char(char *str, char *match_chars)
 {
 	char 			*new_str;
@@ -44,6 +57,8 @@ void				populate_env(void *elem, void *ctx)
 	char			*type;
 
 	type = twl_dict_get((t_dict *)elem, "type");
+	if (!is_valid_type(type))
+		return ;
 	if (twl_strcmp(type, "camera") == 0)
 		build_camera_from_dict(((t_env *)ctx)->camera, (t_dict *)elem);
 	else if (twl_strcmp(type, "light") == 0)
@@ -54,10 +69,12 @@ void				populate_env(void *elem, void *ctx)
 
 void				create_dict_entry(void *elem, void *ctx)
 {
-	char *str = (char *)elem;
-	char **split;
-	t_dict *dict = (t_dict *)ctx;
+	char 			*str;
+	char 			**split;
+	t_dict 			*dict;
 
+	str = (char *)elem;
+	dict = (t_dict *)ctx;
 	split = twl_strsplit(str, ':');
 	twl_dict_add(dict, split[0], twl_strdup(split[1]));
 	twl_arr_del(split, free);
