@@ -98,15 +98,15 @@ double		**m_prod(double **a, double **b)
 	return (ret);
 }
 
-double		**m_fill(double *data, double **matrix)
+float		**m_fill(float **matrix, float *data)
 {
 	int		i;
 	int		j;
 
-	matrix = (double **)malloc(sizeof(double *) * 4);
+	matrix = (float **)malloc(sizeof(float *) * 4);
 	j = 0;
 	while (j <= 3)
-		matrix[j++] = (double *)malloc(sizeof(double) * 4);
+		matrix[j++] = (float *)malloc(sizeof(float) * 4);
 	j = 0;
 	while (j <= 3)
 	{
@@ -163,22 +163,22 @@ double				**m_transpose(double **a)
 	return (a);
 }
 
-double				m_det44(double **a)
-{
-	double			det;
+// double				m_det44(double **a)
+// {
+// 	double			det;
 
-	det = (a[0][0] * a[1][1] * a[2][2] * a[3][3] +\
-			a[0][1] * a[1][2] * a[2][3] * a[3][0] +\
-			a[0][2] * a[1][3] * a[2][0] * a[3][1] +\
-			a[0][3] * a[1][0] * a[2][1] * a[3][2]) -\
-			(a[0][2] * a[1][1] * a[2][0] * a[3][3] +\
-			a[0][1] * a[1][0] * a[2][3] * a[3][2] +\
-			a[0][0] * a[1][3] * a[2][2] * a[3][1] +\
-			a[0][3] * a[1][2] * a[2][1] * a[3][0]);
-	return (det);
-}
+// 	det = (a[0][0] * a[1][1] * a[2][2] * a[3][3] +\
+// 			a[0][1] * a[1][2] * a[2][3] * a[3][0] +\
+// 			a[0][2] * a[1][3] * a[2][0] * a[3][1] +\
+// 			a[0][3] * a[1][0] * a[2][1] * a[3][2]) -\
+// 			(a[0][2] * a[1][1] * a[2][0] * a[3][3] +\
+// 			a[0][1] * a[1][0] * a[2][3] * a[3][2] +\
+// 			a[0][0] * a[1][3] * a[2][2] * a[3][1] +\
+// 			a[0][3] * a[1][2] * a[2][1] * a[3][0]);
+// 	return (det);
+// }
 
-void				m_print(double **matrix)
+void				m_print(float **matrix)
 {
 	int				i;
 	int				j;
@@ -197,61 +197,174 @@ void				m_print(double **matrix)
 	}
 }
 
-int					m_pivot_seek(double **matrix, int j, int r)
+// void				m_vecmatrix(double **matrix, t_vector *src, t_vector *dst)
+// {
+
+// }
+
+// int					m_pivot_seek(double **matrix, int j, int r)
+// {
+// 	double			pivot;
+// 	int				i;
+// 	int				k;
+
+// 	i = r;
+// 	k = 0;
+// 	pivot = fabs(matrix[i][j]);
+// 	while (i <= 3)
+// 	{
+// 		if (pivot < fabs(matrix[i][j]))
+// 		{
+// 			pivot = fabs(matrix[i][j]);
+// 			k = i;
+// 		}
+// 		i++;
+// 	}
+// 	printf("%d\n", k);
+// 	return (k);
+// }
+
+// float				**m_inverse(float **matrix)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		k;
+// 	int		pivot;
+// 	float	f;
+// 	float	pivotsize;
+// 	float	tmp;
+// 	float	**inv;
+
+// 	i = 0;
+// 	inv = (float **)malloc(sizeof(float *) * 4);
+// 	while (i <= 3)
+// 	{
+// 		inv[i] = (float *)malloc(sizeof(float) * 4);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (i < 3)
+// 	{
+// 		pivot = i;
+// 		pivotsize = fabs(matrix[i][i]);
+// 		j = i + 1;
+// 		while (j < 4)
+// 		{
+// 			tmp = fabs(matrix[j][i]);
+// 			if (tmp > pivotsize)
+// 			{
+// 				pivot = j;
+// 				pivotsize = tmp;
+// 			}
+// 			j++;
+// 		}
+// 		if (pivotsize == 0)
+// 			return (matrix);
+// 		if (pivot != i)
+// 		{
+// 			j = 0;
+// 			while (j < 4)
+// 			{
+// 				tmp = matrix[i][j];
+// 				matrix[i][j] = matrix[pivot][j];
+// 				matrix[pivot][j] = tmp;
+
+// 				tmp = inv[i][j];
+// 				inv[i][j] = inv[pivot][j];
+// 				inv[pivot][j] = tmp;
+// 				j++;
+// 			}
+// 		}
+// 		j = i + 1;
+// 		while (j < 4)
+// 		{
+// 			f = matrix[j][i] / matrix[i][i];
+// 			k = 0;
+// 			while (k < 4)
+// 			{
+// 				matrix[j][k] -= f * matrix[i][k];
+// 				inv[j][k] -= f * inv[i][k];
+// 				k++;
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	i = 3;
+// 	while (i >= 0)
+// 	{
+// 		if ((f = matrix[i][i]) == 0)
+// 			return(matrix);
+// 		j = 0;
+// 		while (j < 4)
+// 		{
+// 			matrix[i][j] /= f;
+// 			inv[i][j] /= f;
+// 			j++;
+// 		}
+// 		j = 0;
+// 		while (j < i)
+// 		{
+// 			f = matrix[j][i];
+// 			k = 0;
+// 			while (k < 4)
+// 			{
+// 				matrix[j][k] -= f* matrix[i][k];
+// 				inv[j][k] -= f * inv[i][k];
+// 				k++;
+// 			}
+// 			j++;
+// 		}
+// 		i--;
+// 	}
+// 	return (inv);
+// }
+
+// double				**m_inverse(double **matrix)
+// {
+// 	double			**inv;
+// 	double			pivot;
+// 	int				r;
+// 	int				j;
+// 	int				k;
+
+// 	inv = m_unity();
+// 	j = 0;
+// 	r = 0;
+// 	while (j <= 3)
+// 	{
+// 		pivot = m_pivot_seek(matrix, j, r);
+// 		j++;
+// 	}
+// 	return (inv);
+// }
+
+float				**m_inverse(float **matrix)
 {
-	double			pivot;
-	int				i;
-	int				k;
-
-	i = r;
-	k = 0;
-	pivot = fabs(matrix[i][j]);
-	while (i <= 3)
-	{
-		if (pivot < fabs(matrix[i][j]))
-		{
-			pivot = fabs(matrix[i][j]);
-			k = i;
-		}
-		i++;
-	}
-	printf("%d\n", k);
-	return (k);
-}
-
-double				**m_inverse(double **matrix)
-{
-	double			**inv;
-	double			pivot;
-	int				r;
-	int				j;
-	int				k;
-
-	inv = m_unity();
-	j = 0;
-	r = 0;
-	while (j <= 3)
-	{
-		pivot = m_pivot_seek(matrix, j, r);
-		j++;
-	}
-	return (inv);
+	
 }
 
 int					main()
 {
-	double			**matrix;
-	double			**matrix_2;
+	float			**matrix;
+	float			**matrix_2;
 	double			**matrix_3;
 	double			**matrix_4;
 	double			*line0;
 	double			*line1;
 	double			*line2;
 	double			*line3;
-	double			data[16] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+	float			data[16] = {1,2,1,1,4,1,1,1,1,1,5,1,1,1,1,-2};
+	double			det;
 
-	matrix = m_fill(data, matrix);
+	matrix = m_fill(matrix, data);
 	m_print(matrix);
+	printf("\n");
+
+	matrix_2 = m_inverse(matrix);
+	m_print(matrix_2);
+	// det = m_det44(matrix);
+	// printf("%f\n", det);
 
 	// line0 = (double *)malloc(sizeof(double) * 4);
 	// line1 = (double *)malloc(sizeof(double) * 4);
