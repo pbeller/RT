@@ -1,3 +1,6 @@
 *.obj
 rt
 *.dSYM/
+*.DS_Store
+*.o
+*.a
