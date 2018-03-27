@@ -7,6 +7,7 @@ int	get_values(t_object *object, t_ray *ray, t_hit_rec *rec, float tmp)
 	rec->normal.x = (rec->p.x - object->pos_x) / object->radius;
 	rec->normal.y = (rec->p.y - object->pos_y) / object->radius;
 	rec->normal.z = (rec->p.z - object->pos_z) / object->radius;
+	rec->obj_ptr = object;
 	return (1);
 }
 
@@ -28,10 +29,10 @@ int		sphere_hit(t_object *object, t_ray *ray, t_hit_rec *rec, float closest)
 	if (tmp > 0)
 	{
 		tmp = (-b - sqrt(b*b - a*c)) / a;
-		if (0.0 < tmp && tmp < closest)
+		if (0.001 < tmp && tmp < closest)
 			return (get_values(object, ray, rec, tmp));
 		tmp = (-b + sqrt(b*b - a*c)) / a;
-		if (0.0 < tmp && tmp < closest)
+		if (0.001 < tmp && tmp < closest)
 			return (get_values(object, ray, rec, tmp));
 	}
 	return (0);
@@ -82,33 +83,100 @@ t_vector	random_in_unit_sphere()
 	return (p);
 }
 
-t_vector	get_color(t_env *env, t_ray *ray)
+int			scatter_lamberian(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+{
+	t_vector		target;
+	t_vector		rand_unit_vect;
+
+	rand_unit_vect = random_in_unit_sphere();
+	scatter->ori.x = rec->p.x;
+	scatter->ori.y = rec->p.y;
+	scatter->ori.z = rec->p.z;
+	target.x = scatter->ori.x + rec->normal.x + rand_unit_vect.x;
+	target.y = scatter->ori.y + rec->normal.y + rand_unit_vect.y;
+	target.z = scatter->ori.z + rec->normal.z + rand_unit_vect.z;
+	scatter->dir.x = target.x - rec->p.x;
+	scatter->dir.y = target.y - rec->p.y;
+	scatter->dir.z = target.z - rec->p.z;
+	attenuation->x = rec->obj_ptr->red / (float)255;
+	attenuation->y = rec->obj_ptr->green / (float)255;
+	attenuation->z = rec->obj_ptr->blue / (float)255;
+	(void)ray;
+	return (1);
+}
+
+t_vector	reflect(t_vector	dir, t_vector	*normal)
+{
+	t_vector	ret;
+	float		dot;
+
+	dot = scal_prod(&dir, normal);
+	ret.x = dir.x - 2 * dot * normal->x;
+	ret.y = dir.y - 2 * dot * normal->y;
+	ret.z = dir.z - 2 * dot * normal->z;
+	return (ret);
+}
+
+int			scatter_metal(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+{
+	t_vector		reflected;
+
+	reflected = reflect(normalise(ray->dir), &rec->normal);
+	scatter->ori.x = rec->p.x;
+	scatter->ori.y = rec->p.y;
+	scatter->ori.z = rec->p.z;
+	scatter->dir.x = reflected.x;
+	scatter->dir.y = reflected.y;
+	scatter->dir.z = reflected.z;
+	attenuation->x = rec->obj_ptr->red / (float)255;
+	attenuation->y = rec->obj_ptr->green / (float)255;
+	attenuation->z = rec->obj_ptr->blue / (float)255;
+	return (scal_prod(&scatter->dir, &rec->normal) > 0);
+}
+
+int			scatter(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+{
+	if (rec->obj_ptr->reflection > 0)
+		return (scatter_metal(ray, rec, attenuation, scatter));
+	return (scatter_lamberian(ray, rec, attenuation, scatter));
+}
+
+t_vector	empty_vect()
+{
+	t_vector	vector;
+	vector.x = 0;
+	vector.y = 0;
+	vector.z = 0;
+	return (vector);
+}
+
+t_vector	get_color(t_env *env, t_ray *prim_ray, int depth)
 {
 	t_vector		color;
 	float			t;
 	t_hit_rec		rec;
-	t_vector		target;
-	t_vector		rand_unit_vect;
-	t_ray			tmp_ray;
+	t_ray			sec_ray;
+	t_vector		att;
+	t_vector		tmp;
+	t_vector		tmp2;
 
-	if (hit(env, ray, &rec))
+	if (hit(env, prim_ray, &rec))
 	{
-		rand_unit_vect = random_in_unit_sphere();
-		tmp_ray.ori.x = rec.p.x;
-		tmp_ray.ori.y = rec.p.y;
-		tmp_ray.ori.z = rec.p.z;
-		target.x = tmp_ray.ori.x + rec.normal.x + rand_unit_vect.x;
-		target.y = tmp_ray.ori.y + rec.normal.y + rand_unit_vect.y;
-		target.z = tmp_ray.ori.z + rec.normal.z + rand_unit_vect.z;
-		tmp_ray.dir.x = target.x - rec.p.x;
-		tmp_ray.dir.y = target.y - rec.p.y;
-		tmp_ray.dir.z = target.z - rec.p.z;
-		return (prod_float(get_color(env, &tmp_ray), 0.5));
+		if (depth < 50 && scatter(prim_ray, &rec, &att, &sec_ray))
+		{
+			tmp2 = get_color(env, &sec_ray, depth + 1);
+			tmp.x = att.x *tmp2.x;
+			tmp.y = att.y *tmp2.y;
+			tmp.z = att.z *tmp2.z;
+			return (tmp);
+		}
+		else
+			return (empty_vect());
 	}
 	else
 	{
-		normalise(&ray->dir);
-		t = 0.5 * (ray->dir.y + 1.0);
+		prim_ray->dir = normalise(prim_ray->dir);
+		t = 0.5 * (prim_ray->dir.y + 1.0);
 		color.x = (1.0 - t) + t * 0.5;
 		color.y = (1.0 - t) + t * 0.7;
 		color.z = (1.0 - t) + t * 1.0;
@@ -142,7 +210,7 @@ void	draw_img(t_img *img, t_env *env)
 			while (++k < AA_STRENGH)
 			{
 				get_ray(&ray, env->camera, i, j);
-				tmp = get_color(env, &ray);
+				tmp = get_color(env, &ray, 0);
 				col = add_vector(col, tmp);
 			}
 			put_pixel(img, i, j, &col);

@@ -9,14 +9,13 @@ t_vector	add_vector(t_vector a, t_vector b)
 	return (a);
 }
 
-t_vector	*prod_vector(t_vector *a, t_vector *b)
+t_vector	prod_vector(t_vector a, t_vector b)
 {
-	t_vector	*c;
+	t_vector	c;
 
-	(!(c = (t_vector*)malloc(sizeof(t_vector)))) ? exit(-1) : 0;
-	c->x = a->y * b->z - b->y * a->z;
-	c->y = a->z * b->x - b->z * a->x;
-	c->z = a->x * b->y - b->x * a->y;
+	c.x = a.y * b.z - b.y * a.z;
+	c.y = a.z * b.x - b.z * a.x;
+	c.z = a.x * b.y - b.x * a.y;
 	return (c);
 }
 

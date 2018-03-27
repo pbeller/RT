@@ -36,6 +36,7 @@ typedef struct s_hit_rec
 	float		t;
 	t_vector	p;
 	t_vector	normal;
+	t_object	*obj_ptr;
 }				t_hit_rec;
 
 void		render(t_env *env);
