@@ -89,5 +89,23 @@
 	specular   : 0.0,
 	reflection : 0.0,
 	refraction : 1.5,
+},
+{
+	type       : sphere,
+	red        : 255,
+	green      : 255,
+	blue       : 255,
+	pos_x      : -2,
+	pos_y      : 0,
+	pos_z      : -1,
+	rot_x      : 0.000000,
+	rot_y      : 0.000000,
+	rot_z      : 1.000000,
+	radius     : -0.9,
+	ambient    : 0.0,
+	diffuse    : 0.0,
+	specular   : 0.0,
+	reflection : 0.0,
+	refraction : 1.5,
 }
 ]
