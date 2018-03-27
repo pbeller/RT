@@ -87,7 +87,7 @@
 	ambient    : 0.0,
 	diffuse    : 0.0,
 	specular   : 0.0,
-	reflection : 1.0,
-	refraction : 0.0000,
+	reflection : 0.0,
+	refraction : 1.5,
 }
 ]
