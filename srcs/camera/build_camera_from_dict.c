@@ -18,4 +18,12 @@ void				build_camera_from_dict(t_camera *camera, t_dict *dict)
 	camera->dir_y = atof(ret_val);
 	ret_val = twl_dict_get(dict, "dir_z");
 	camera->dir_z = atof(ret_val);
+	ret_val = twl_dict_get(dict, "fov");
+	camera->fov = atof(ret_val);
+	ret_val = twl_dict_get(dict, "up_x");
+	camera->up_x = atof(ret_val);
+	ret_val = twl_dict_get(dict, "up_y");
+	camera->up_y = atof(ret_val);
+	ret_val = twl_dict_get(dict, "up_z");
+	camera->up_z = atof(ret_val);
 }

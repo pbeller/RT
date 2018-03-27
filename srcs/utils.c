@@ -47,7 +47,7 @@ void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
 
 	u = (float)(i + drand48()) / (float)WIN_WIDTH;
 	v = (float)(j + drand48()) / (float)WIN_HEIGH;
-	ray->dir.x = cam->up_left->x + u * cam->hori->x - v * cam->vert->x;
-	ray->dir.y = cam->up_left->y + u * cam->hori->y - v * cam->vert->y;
-	ray->dir.z = cam->up_left->z + u * cam->hori->z - v * cam->vert->z;
+	ray->dir.x = cam->up_left.x + u * cam->hori.x - v * cam->vert.x;
+	ray->dir.y = cam->up_left.y + u * cam->hori.y - v * cam->vert.y;
+	ray->dir.z = cam->up_left.z + u * cam->hori.z - v * cam->vert.z;
 }

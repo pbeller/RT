@@ -240,12 +240,12 @@ int			scatter(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
 	return (scatter_lamberian(ray, rec, attenuation, scatter));
 }
 
-t_vector	empty_vect()
+t_vector	set_vect(float x, float y, float z)
 {
 	t_vector	vector;
-	vector.x = 0;
-	vector.y = 0;
-	vector.z = 0;
+	vector.x = x;
+	vector.y = y;
+	vector.z = z;
 	return (vector);
 }
 
@@ -270,7 +270,7 @@ t_vector	get_color(t_env *env, t_ray *prim_ray, int depth)
 			return (tmp);
 		}
 		else
-			return (empty_vect());
+			return (set_vect(0, 0, 0));
 	}
 	else
 	{
@@ -283,6 +283,43 @@ t_vector	get_color(t_env *env, t_ray *prim_ray, int depth)
 	}
 }
 
+void	init_camera(t_camera *cam, float aspect)
+{
+	float		theta;
+	float		half_height;
+	float		half_width;
+	t_vector	u;
+	t_vector	v;
+	t_vector	w;
+
+	theta = cam->fov * M_PI / 180;
+	half_height = tan(theta / 2);
+	half_width = aspect * half_height;
+	w.x = cam->pos_x - cam->dir_x;
+	w.y = cam->pos_y - cam->dir_y;
+	w.z = cam->pos_z - cam->dir_z;
+	w = normalise(w);
+	u = prod_vector(set_vect(cam->up_x, cam->up_y, cam->up_z), w);
+	u = normalise(u);
+	v = prod_vector(w, u);
+
+	cam->up_left.x = -half_width;
+	cam->up_left.y = half_height;
+	cam->up_left.z = -1.0;
+
+	cam->up_left.x = cam->pos_x - half_width * u.x + half_height * v.x - w.x;
+	cam->up_left.y = cam->pos_y - half_width * u.y + half_height * v.y - w.y;
+	cam->up_left.z = cam->pos_z - half_width * u.z + half_height * v.z - w.z;
+
+	cam->hori.x = 2.0 * half_width * u.x;
+	cam->hori.y = u.y;
+	cam->hori.z = u.z;
+
+	cam->vert.x = v.x;
+	cam->vert.y = 2.0 * half_height * v.y;
+	cam->vert.z = v.z;
+}
+
 void	draw_img(t_img *img, t_env *env)
 {
 	int			i;
@@ -292,9 +329,7 @@ void	draw_img(t_img *img, t_env *env)
 	t_vector	col;
 	t_vector	tmp;
 
-	env->camera->up_left = new_vector(-2, 1, -1);
-	env->camera->hori = new_vector(4, 0, 0);
-	env->camera->vert = new_vector(0, 2, 0);
+	init_camera(env->camera, (float)WIN_WIDTH / (float)WIN_HEIGH);
 	ray.ori.x = env->camera->pos_x;
 	ray.ori.y = env->camera->pos_y;
 	ray.ori.z = env->camera->pos_z;

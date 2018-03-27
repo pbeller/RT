@@ -12,9 +12,13 @@ typedef struct  s_camera
 	float 			dir_x;
 	float 			dir_y;
 	float 			dir_z;
-	t_vector		*hori;
-	t_vector		*vert;
-	t_vector		*up_left;
+	float			fov;
+	float			up_x;
+	float			up_y;
+	float			up_z;
+	t_vector		hori;
+	t_vector		vert;
+	t_vector		up_left;
 }					t_camera;
 
 t_camera			*camera_new();
