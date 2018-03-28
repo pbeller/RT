@@ -10,8 +10,8 @@
 # include "env.h"
 # include <float.h>
 
-# define WIN_WIDTH 1600
-# define WIN_HEIGH 900
+# define WIN_WIDTH 900
+# define WIN_HEIGH 450
 # define AA_STRENGH 4
 
 typedef struct	s_img
@@ -44,7 +44,7 @@ void		destroy(t_img *img);
 int			clean_quit(void *parram);
 void		put_pixel(t_img *img, int x, int y, t_vector *col);
 
-void		point_at(t_ray *ray, float t, t_vector *tmp);
+void		point_at(const t_ray *ray, float t, t_vector *tmp);
 void		get_ray(t_ray *ray, t_camera *camera, int i, int j);
 
 #endif

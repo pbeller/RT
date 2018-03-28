@@ -1,6 +1,6 @@
 #include "rt.h"
 
-int	get_values(t_object *object, t_ray *ray, t_hit_rec *rec, float tmp)
+int	get_values(t_object *object, const t_ray *ray, t_hit_rec *rec, float tmp)
 {
 	rec->t = tmp;
 	point_at(ray, tmp, &rec->p);
@@ -11,7 +11,7 @@ int	get_values(t_object *object, t_ray *ray, t_hit_rec *rec, float tmp)
 	return (1);
 }
 
-int		sphere_hit(t_object *object, t_ray *ray, t_hit_rec *rec, float closest)
+int		sphere_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 {
 	t_vector	oc;
 	float		a;
@@ -38,7 +38,7 @@ int		sphere_hit(t_object *object, t_ray *ray, t_hit_rec *rec, float closest)
 	return (0);
 }
 
-int		object_hit(t_object *object, t_ray *ray, t_hit_rec *rec, float closest)
+int		object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 {
 	if (twl_strcmp(object->type, "sphere") == 0)
 		return (sphere_hit(object, ray, rec, closest));
@@ -46,7 +46,7 @@ int		object_hit(t_object *object, t_ray *ray, t_hit_rec *rec, float closest)
 		return (0);
 }
 
-int		hit(t_env *env, t_ray *ray, t_hit_rec *rec)
+int		hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
 {
 	t_lst_elem__	*elem;
 	t_lst_elem__	*next;
@@ -83,7 +83,7 @@ t_vector	random_in_unit_sphere()
 	return (p);
 }
 
-int			scatter_lamberian(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int			scatter_lamberian(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
 {
 	t_vector		target;
 	t_vector		rand_unit_vect;
@@ -117,7 +117,7 @@ t_vector	reflect(t_vector	dir, t_vector	*normal)
 	return (ret);
 }
 
-int			scatter_metal(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int			scatter_metal(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
 {
 	t_vector		reflected;
 	t_vector		rand_unit_vect;
@@ -137,7 +137,7 @@ int			scatter_metal(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *sc
 	return (scal_prod(&scatter->dir, &rec->normal) > 0);
 }
 
-int			refract(t_vector *v, t_vector *n, float ni_over_nt, t_vector *refracted)
+int			refract(const t_vector *v, t_vector *n, float ni_over_nt, t_vector *refracted)
 {
 	t_vector		uv;
 	float			dt;
@@ -166,7 +166,7 @@ float		schlick(float cosine, float ref_idx)
 	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
-int			scatter_dielectric(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int			scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
 {
 	t_vector	outward_normal;
 	t_vector	reflected;
@@ -231,7 +231,7 @@ int			scatter_dielectric(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ra
 	return (1);
 }
 
-int			scatter(t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int			scatter(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
 {
 	if (rec->obj_ptr->refraction > 0)
 		return (scatter_dielectric(ray, rec, attenuation, scatter));
@@ -249,7 +249,7 @@ t_vector	set_vect(float x, float y, float z)
 	return (vector);
 }
 
-t_vector	get_color(t_env *env, t_ray *prim_ray, int depth)
+t_vector	get_color(t_env *env, const t_ray *prim_ray, int depth)
 {
 	t_vector		color;
 	float			t;
@@ -274,8 +274,7 @@ t_vector	get_color(t_env *env, t_ray *prim_ray, int depth)
 	}
 	else
 	{
-		prim_ray->dir = normalise(prim_ray->dir);
-		t = 0.5 * (prim_ray->dir.y + 1.0);
+		t = 0.5 * (normalise(prim_ray->dir).y + 1.0);
 		color.x = (1.0 - t) + t * 0.5;
 		color.y = (1.0 - t) + t * 0.7;
 		color.z = (1.0 - t) + t * 1.0;

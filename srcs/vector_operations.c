@@ -27,12 +27,12 @@ t_vector	prod_float(t_vector a, float f)
 	return (a);
 }
 
-float		scal_prod(t_vector *a, t_vector *b)
+float		scal_prod(const t_vector *a, const t_vector *b)
 {
 	return (a->x * b->x + a->y * b->y + a->z * b->z);
 }
 
-float		norm(t_vector *a)
+float		norm(const t_vector *a)
 {
 	return (sqrt(a->x * a->x + a->y * a->y + a->z * a->z));
 }

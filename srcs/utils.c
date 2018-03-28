@@ -29,7 +29,7 @@ void	put_pixel(t_img *img, int x, int y, t_vector *col)
 	img->buffer[x + WIN_WIDTH * y] = color;
 }
 
-void	point_at(t_ray *ray, float t, t_vector *tmp)
+void	point_at(const t_ray *ray, float t, t_vector *tmp)
 {
 	tmp->x = ray->dir.x * t;
 	tmp->y = ray->dir.y * t;
