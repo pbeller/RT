@@ -307,9 +307,9 @@ void	init_camera(t_camera *cam, float aspect)
 	cam->up_left.y = half_height;
 	cam->up_left.z = -1.0;
 
-	cam->up_left.x = cam->pos_x - half_width * u.x - half_height * v.x - w.x;
-	cam->up_left.y = cam->pos_y - half_width * u.y - half_height * v.y - w.y;
-	cam->up_left.z = cam->pos_z - half_width * u.z - half_height * v.z - w.z;
+	cam->up_left.x = cam->pos_x - half_width * u.x + half_height * v.x - w.x;
+	cam->up_left.y = cam->pos_y - half_width * u.y + half_height * v.y - w.y;
+	cam->up_left.z = cam->pos_z - half_width * u.z + half_height * v.z - w.z;
 
 	cam->hori.x = 2.0 * half_width * u.x;
 	cam->hori.y = 2.0 * half_width * u.y;

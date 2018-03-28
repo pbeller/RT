@@ -10,8 +10,8 @@
 # include "env.h"
 # include <float.h>
 
-# define WIN_WIDTH 900
-# define WIN_HEIGH 450
+# define WIN_WIDTH 1600
+# define WIN_HEIGH 900
 # define AA_STRENGH 4
 
 typedef struct	s_img
