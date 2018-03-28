@@ -1,13 +1,13 @@
 [
 {
 	type  : camera,
-	pos_x : 0,
-	pos_y : 0,
-	pos_z : 0,
+	pos_x : -4,
+	pos_y : 4,
+	pos_z : 2,
 	dir_x : 0,
 	dir_y : 0,
-	dir_z : -1,
-	fov   : 90,
+	dir_z : -2,
+	fov   : 45,
 	up_x  : 0,
 	up_y  : 1,
 	up_z  : 0,

@@ -307,17 +307,17 @@ void	init_camera(t_camera *cam, float aspect)
 	cam->up_left.y = half_height;
 	cam->up_left.z = -1.0;
 
-	cam->up_left.x = cam->pos_x - half_width * u.x + half_height * v.x - w.x;
-	cam->up_left.y = cam->pos_y - half_width * u.y + half_height * v.y - w.y;
-	cam->up_left.z = cam->pos_z - half_width * u.z + half_height * v.z - w.z;
+	cam->up_left.x = cam->pos_x - half_width * u.x - half_height * v.x - w.x;
+	cam->up_left.y = cam->pos_y - half_width * u.y - half_height * v.y - w.y;
+	cam->up_left.z = cam->pos_z - half_width * u.z - half_height * v.z - w.z;
 
 	cam->hori.x = 2.0 * half_width * u.x;
-	cam->hori.y = u.y;
-	cam->hori.z = u.z;
+	cam->hori.y = 2.0 * half_width * u.y;
+	cam->hori.z = 2.0 * half_width * u.z;
 
-	cam->vert.x = v.x;
+	cam->vert.x = 2.0 * half_height * v.x;
 	cam->vert.y = 2.0 * half_height * v.y;
-	cam->vert.z = v.z;
+	cam->vert.z = 2.0 * half_height * v.z;
 }
 
 void	draw_img(t_img *img, t_env *env)
