@@ -7,7 +7,6 @@ int	get_values(t_object *object, const t_ray *ray, t_hit_rec *rec, float tmp)
 	rec->normal.x = (rec->p.x - object->pos_x) / object->radius;
 	rec->normal.y = (rec->p.y - object->pos_y) / object->radius;
 	rec->normal.z = (rec->p.z - object->pos_z) / object->radius;
-	rec->obj_ptr = object;
 	return (1);
 }
 
@@ -65,6 +64,7 @@ int		hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
 			hit = 1;
 			*rec = tmp_rec;
 			closest = rec->t;
+			rec->obj_ptr = elem->data;
 		}
 		elem = next;
 	}
