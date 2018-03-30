@@ -3,7 +3,11 @@
 # include "camera.h"
 # include "light.h"
 # include "object.h"
+# include "twl_arr.h"
 # include "twl_lst.h"
+# include "utils.h"
+
+# define VALIDE_TYPE "camera,light,plane,sphere"
 
 typedef struct  s_env
 {
@@ -14,6 +18,7 @@ typedef struct  s_env
 }					t_env;
 
 t_env				*env_new();
+void				env_fill(t_env *env);
 void				env_del(t_env *env);
 
 void				env_print(t_env *env);

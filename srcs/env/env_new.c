@@ -9,5 +9,6 @@ t_env				*env_new()
 	env->camera = camera_new();
 	env->lights = twl_lst_new();
 	env->objects = twl_lst_new();
+	env_fill(env);
 	return (env);
 }
