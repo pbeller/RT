@@ -9,7 +9,7 @@
 #include <stdlib.h>
 
 
-void				free_dict_wrapper(void *elem_)
+static void			free_dict_wrapper(void *elem_)
 {
 	t_dict			*elem;
 
@@ -30,7 +30,7 @@ int					is_valid_type(char *type)
 	return (0);
 }
 
-char				*clean_char(char *str, char *match_chars)
+static char			*clean_char(char *str, char *match_chars)
 {
 	char 			*new_str;
 	char			*ret_str;
@@ -52,7 +52,7 @@ char				*clean_char(char *str, char *match_chars)
 	return (ret_str);
 }
 
-void				populate_env(void *elem, void *ctx)
+static void			populate_env(void *elem, void *ctx)
 {
 	char			*type;
 
@@ -67,7 +67,7 @@ void				populate_env(void *elem, void *ctx)
 		add_object_to_list_from_dict(((t_env *)ctx)->objects, (t_dict *)elem);
 }
 
-void				create_dict_entry(void *elem, void *ctx)
+static void			create_dict_entry(void *elem, void *ctx)
 {
 	char 			*str;
 	char 			**split;
@@ -81,7 +81,7 @@ void				create_dict_entry(void *elem, void *ctx)
 	twl_arr_del(split, free);
 }
 
-void				parse_fn(void *elem, void *ctx)
+static void			parse_fn(void *elem, void *ctx)
 {
 	char 			*str;
 	char			**split;
