@@ -1,12 +1,4 @@
-#include "parser.h"
-#include "twl_arr.h"
-#include "twl_stdio.h"
-#include "twl_xstdio.h"
-#include "twl_xstdlib.h"
-#include "twl_dict.h"
-#include "twl_lst.h"
-#include "twl_xstring.h"
-#include <stdlib.h>
+#include "env.h"
 
 
 static void			free_dict_wrapper(void *elem_)
@@ -17,7 +9,7 @@ static void			free_dict_wrapper(void *elem_)
 	twl_dict_del(elem, free);
 }
 
-int					is_valid_type(char *type)
+static int			is_valid_type(char *type)
 {
 	char			**types;
 	void			*find;
@@ -98,22 +90,16 @@ static void			parse_fn(void *elem, void *ctx)
 	twl_lst_push_back((t_lst *)ctx, dict);
 }
 
-void				fill_env_with_file_path(t_env *env, char *filepath)
+void				env_fill(t_env *env)
 {
-	char			*json;
+	char 			*json;
 	char			**split;
 	t_lst			*lst;
 
-	json = twl_file_to_str(filepath);
-	if (json == NULL)
-	{
-		twl_dprintf(2, "%s file does not exist\n", filepath);
-		env_del(env);
-		exit(1);
-	}
-	lst = twl_lst_new();
+	json = read_raw_input();
 	split = twl_strsplit_mul_trim_chars(json, "{", "[]");
 	free(json);
+	lst = twl_lst_new();
 	twl_arr_iter(split, parse_fn, lst);
 	twl_arr_del(split, free);
 	twl_lst_iter(lst, populate_env, env);

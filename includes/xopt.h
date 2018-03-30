@@ -28,7 +28,6 @@ typedef struct		s_xopt
 {
 	t_opt			*opt__;
 	char			*file_argument;
-	char			*theme;
 }					t_xopt;
 
 

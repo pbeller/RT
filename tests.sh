@@ -28,14 +28,6 @@ function test_return_nok()
 
 
 make
-printf "Test file does not exist - grep error message."
-./rt "BONJOUR" 2>&1 | grep -q "BONJOUR file does not exist"
-test_return_ok
-
-printf "Test file does not exist - Check return."
-./rt "BONJOUR" 2> /dev/null
-test_return_nok
-
 printf "Test missing light data."
 ./rt scenes/scene_missing_light_data.json > /dev/null
 test_return_ok
