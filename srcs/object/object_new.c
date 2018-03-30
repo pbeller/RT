@@ -15,6 +15,7 @@ t_object			*object_new()
 	object->rot_x = 0.0;
 	object->rot_y = 0.0;
 	object->rot_z = 0.0;
+	object->radius = 0.0;
 	object->ambient = 0.0;
 	object->diffuse = 0.0;
 	object->specular = 0.0;

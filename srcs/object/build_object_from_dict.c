@@ -27,6 +27,8 @@ void				build_object_from_dict(t_object *object, t_dict *dict)
 	object->rot_y = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "rot_z", "0");
 	object->rot_z = atof(ret_val);
+	ret_val = dict_get_with_default(dict, "radius", "1");
+	object->radius = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "ambient", "0");
 	object->ambient = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "diffuse", "0");
