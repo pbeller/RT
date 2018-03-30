@@ -28,12 +28,11 @@ function test_return_nok()
 
 
 make
-printf "TEST WITH A FILE DOES NOT EXIST\n"
-printf "Test grep error message."
+printf "Test file does not exist - grep error message."
 ./rt "BONJOUR" 2>&1 | grep -q "BONJOUR file does not exist"
 test_return_ok
 
-printf "Test Check return."
+printf "Test file does not exist - Check return."
 ./rt "BONJOUR" 2> /dev/null
 test_return_nok
 
@@ -51,4 +50,12 @@ test_return_ok
 
 printf "Test invalid type."
 ./rt scenes/scene_invalid_type.json > /dev/null
+test_return_ok
+
+printf "Test empty value"
+./rt scenes/scene_empty_value.json > /dev/null
+test_return_ok
+
+printf "Test multiple value"
+./rt scenes/scene_multiple_values.json > /dev/null
 test_return_ok

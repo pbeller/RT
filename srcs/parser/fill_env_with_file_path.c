@@ -76,7 +76,8 @@ void				create_dict_entry(void *elem, void *ctx)
 	str = (char *)elem;
 	dict = (t_dict *)ctx;
 	split = twl_strsplit(str, ':');
-	twl_dict_add(dict, split[0], twl_strdup(split[1]));
+	if (twl_arr_len(split) == 2)
+		twl_dict_add(dict, split[0], twl_strdup(split[1]));
 	twl_arr_del(split, free);
 }
 
@@ -112,7 +113,9 @@ void				fill_env_with_file_path(t_env *env, char *filepath)
 	}
 	lst = twl_lst_new();
 	split = twl_strsplit_mul_trim_chars(json, "{", "[]");
+	free(json);
 	twl_arr_iter(split, parse_fn, lst);
+	twl_arr_del(split, free);
 	twl_lst_iter(lst, populate_env, env);
 	twl_lst_del(lst, free_dict_wrapper);
 }

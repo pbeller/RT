@@ -1,5 +1,4 @@
 
-#include "mlx.h"
 #include "env.h"
 #include "parser.h"
 
