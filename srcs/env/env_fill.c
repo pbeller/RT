@@ -50,7 +50,10 @@ static void			populate_env(void *elem, void *ctx)
 
 	type = twl_dict_get((t_dict *)elem, "type");
 	if (!is_valid_type(type))
+	{
+		twl_dprintf(2, "Invalide type: %s. Object will be skipped\n", type);
 		return ;
+	}
 	if (twl_strcmp(type, "camera") == 0)
 		build_camera_from_dict(((t_env *)ctx)->camera, (t_dict *)elem);
 	else if (twl_strcmp(type, "light") == 0)
