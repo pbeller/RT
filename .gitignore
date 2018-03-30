@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 *.obj
 rt
 *.dSYM/
-*.tmp/
-=======
-rt
 .tmp/
->>>>>>> RT_nico/master
