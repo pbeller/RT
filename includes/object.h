@@ -16,6 +16,7 @@ typedef struct 		s_object
 	float			rot_x;
 	float			rot_y;
 	float			rot_z;
+	float			radius;
 	float			ambient;
 	float			diffuse;
 	float			specular;

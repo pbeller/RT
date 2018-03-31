@@ -1,6 +1,7 @@
 
 #include "env.h"
 #include "xopt.h"
+#include "rt.h"
 
 int 				main(int ac, char **av)
 {
@@ -9,9 +10,7 @@ int 				main(int ac, char **av)
 	xopt_init(xopt_singleton(), av);
 	env = env_new();
 	env_print(env);
-
-	/* INSERT YOUR CODE HERE */
-
+	render(env);
 	env_del(env);
 	xopt_del(xopt_singleton());
 	return (0);

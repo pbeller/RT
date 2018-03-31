@@ -12,5 +12,9 @@ t_camera			*camera_new()
 	camera->dir_x = 0.0;
 	camera->dir_y = 0.0;
 	camera->dir_z = 0.0;
+	camera->fov = 0.0;
+	camera->up_x = 0.0;
+	camera->up_y = 0.0;
+	camera->up_z = 0.0;
 	return (camera);
 }
