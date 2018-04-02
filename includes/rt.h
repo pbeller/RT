@@ -1,8 +1,7 @@
-#ifndef WOLF3D_H
-# define WOLF3D_H
+#ifndef RT_H
+# define RT_H
 # include "vector.h"
 # include <math.h>
-# include "../minilibx/includes/mlx.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include "camera.h"
@@ -10,21 +9,12 @@
 # include "env.h"
 # include <float.h>
 # include <pthread.h>
+# include "image.h"
 
 # define WIN_WIDTH 900
 # define WIN_HEIGH 450
 # define AA_STRENGH 4
-
-typedef struct	s_img
-{
-	void		*ptr;
-	int			*buffer;
-	int			bpp;
-	int			line_s;
-	int			endian;
-	void		*win;
-	void		*mlx;
-} 				t_img;
+# define RAY_DEPTH 10
 
 typedef struct s_ray
 {
@@ -49,12 +39,9 @@ typedef struct	s_thread_arg
     pthread_mutex_t mutex;
 } 				t_thread_arg;
 
-void		render(t_env *env);
-void		destroy(t_img *img);
-int			clean_quit(void *parram);
-void		put_pixel(t_img *img, int x, int y, t_vector *col);
+void	render(t_env *env);
 
-void		point_at(const t_ray *ray, float t, t_vector *tmp);
-void		get_ray(t_ray *ray, t_camera *camera, int i, int j);
-
+int		scatter(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter);
+int		hit(t_env *env, const t_ray *ray, t_hit_rec *rec);
+void	init_camera(t_camera *cam, float aspect);
 #endif
