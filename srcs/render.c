@@ -154,7 +154,12 @@ int			refract(const t_vector *v, t_vector *n, float ni_over_nt, t_vector *refrac
 		return (1);
 	}
 	else
+	{
+		refracted->x = 0;
+		refracted->y = 0;
+		refracted->z = 0;
 		return (0);
+	}
 }
 
 float		schlick(float cosine, float ref_idx)
@@ -319,36 +324,68 @@ void	init_camera(t_camera *cam, float aspect)
 	cam->vert.z = 2.0 * half_height * v.z;
 }
 
+void	*thread_fnc(void *data)
+{
+	int 			i;
+	int				k;
+	t_vector		col;
+	t_vector		tmp;
+	t_thread_arg *thread_arg;
+	int				j;
+	t_ray			ray;
+
+	thread_arg = (t_thread_arg*)data;
+	pthread_mutex_lock(&thread_arg->mutex);
+	j = thread_arg->j;
+	thread_arg->j += 1;
+	ray = *thread_arg->ray;
+	pthread_mutex_unlock(&thread_arg->mutex);
+	i = -1;
+	while (++i < WIN_WIDTH)
+	{
+		k = -1;
+		set_value_vector(&col, 0, 0, 0);
+		while (++k < AA_STRENGH)
+		{
+			get_ray(&ray, thread_arg->env->camera, i, j);
+			tmp = get_color(thread_arg->env, &ray, 0);
+			col = add_vector(col, tmp);
+		}
+		put_pixel(thread_arg->img, i, j, &col);
+	}
+    pthread_exit(NULL);
+}
+
 void	draw_img(t_img *img, t_env *env)
 {
-	int			i;
-	int			j;
-	int			k;
-	t_ray		ray;
-	t_vector	col;
-	t_vector	tmp;
+	t_ray			ray;
+	t_thread_arg	thread_arg;
+	int				ret;
+	pthread_t		*thread;
+	int				i;
+	int				j;
 
+	(!(thread = (pthread_t*)malloc(sizeof(pthread_t) * WIN_HEIGH))) ? exit(-1) : 0;
+	thread_arg.ray = &ray;
+	thread_arg.env = env;
+	thread_arg.img = img;
 	init_camera(env->camera, (float)WIN_WIDTH / (float)WIN_HEIGH);
 	ray.ori.x = env->camera->pos_x;
 	ray.ori.y = env->camera->pos_y;
 	ray.ori.z = env->camera->pos_z;
+	thread_arg.j = 0;
 	j = -1;
+    pthread_mutex_init ( &thread_arg.mutex, NULL);
 	while (++j < WIN_HEIGH)
 	{
-		i = -1;
-		while (++i < WIN_WIDTH)
-		{
-			k = -1;
-			set_value_vector(&col, 0, 0, 0);
-			while (++k < AA_STRENGH)
-			{
-				get_ray(&ray, env->camera, i, j);
-				tmp = get_color(env, &ray, 0);
-				col = add_vector(col, tmp);
-			}
-			put_pixel(img, i, j, &col);
-		}
+		ret = pthread_create(&thread[j], NULL, thread_fnc, &thread_arg);
+		if (ret != 0)
+			exit(3);
 	}
+	i =-1;
+	while (++i < WIN_HEIGH)
+		pthread_join(thread[i], NULL);
+	free(thread);
 }
 
 void	render(t_env *env)

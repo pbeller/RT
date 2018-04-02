@@ -15,5 +15,4 @@ int 				main(int ac, char **av)
 	xopt_del(xopt_singleton());
 	return (0);
 	(void)ac;
-
 }

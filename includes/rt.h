@@ -9,6 +9,7 @@
 # include "object.h"
 # include "env.h"
 # include <float.h>
+# include <pthread.h>
 
 # define WIN_WIDTH 900
 # define WIN_HEIGH 450
@@ -38,6 +39,15 @@ typedef struct s_hit_rec
 	t_vector	normal;
 	t_object	*obj_ptr;
 }				t_hit_rec;
+
+typedef struct	s_thread_arg
+{
+	int				j;
+	t_img			*img;
+	t_env			*env;
+	t_ray			*ray;
+    pthread_mutex_t mutex;
+} 				t_thread_arg;
 
 void		render(t_env *env);
 void		destroy(t_img *img);
