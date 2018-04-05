@@ -104,6 +104,13 @@ void	draw_img(t_img *img, t_env *env)
 	free(thread);
 }
 
+int					key_hook(int k, t_img *mlx)
+{
+	if (k == 53)
+		clean_quit(mlx);
+	return (0);
+}
+
 void	render(t_env *env)
 {
 	t_img	*img;
@@ -115,6 +122,7 @@ void	render(t_env *env)
 	img->buffer = (int*)mlx_get_data_addr(img->ptr, &(img->bpp), &(img->line_s),
 														&(img->endian));
 	mlx_hook(img->win, 17, 0, clean_quit, img);
+	mlx_key_hook(img->win, key_hook, img);
 	draw_img(img, env);
 	mlx_put_image_to_window(img->mlx, img->win, img->ptr, 0, 0);
 	mlx_loop(img->mlx);
