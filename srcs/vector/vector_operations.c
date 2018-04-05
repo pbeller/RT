@@ -1,5 +1,4 @@
 #include "vector.h"
-#include <math.h>
 
 t_vector	add_vector(t_vector a, t_vector b)
 {
@@ -27,12 +26,15 @@ t_vector	prod_float(t_vector a, float f)
 	return (a);
 }
 
+t_vector	mult_vector(t_vector a, t_vector b)
+{
+	a.x = a.x * b.x;
+	a.y = a.y * b.y;
+	a.z = a.z * b.z;
+	return (a);
+}
+
 float		scal_prod(const t_vector *a, const t_vector *b)
 {
 	return (a->x * b->x + a->y * b->y + a->z * b->z);
-}
-
-float		norm(const t_vector *a)
-{
-	return (sqrt(a->x * a->x + a->y * a->y + a->z * a->z));
 }
