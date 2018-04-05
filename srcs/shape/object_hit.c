@@ -15,8 +15,9 @@ static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float 
 {
 	if (twl_strcmp(object->type, "sphere") == 0)
 		return (sphere_hit(object, ray, rec, closest));
-	else
-		return (0);
+	if(twl_strcmp(object->type, "cylindre") == 0)
+		return (cylindre_hit(object,ray,rec,closest));
+	return(0);
 }
 
 int			hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
