@@ -1,4 +1,5 @@
 #include "rt.h"
+#include "texture.h"
 
 static t_vector	background_color(int is_sky, const t_ray *prim_ray)
 {
@@ -17,32 +18,24 @@ static t_vector	background_color(int is_sky, const t_ray *prim_ray)
 	return (color);
 }
 
-t_vector	get_color(t_env *env, const t_ray *prim_ray, int depth)
+t_vector		get_color(t_env *env, const t_ray *prim_ray, int depth)
 {
 	t_hit_rec		rec;
 	t_ray			sec_ray;
-	t_vector		tmp;
-	t_vector		tmp2;
 	t_vector		emited;
 
 	if (hit(env, prim_ray, &rec))
 	{
 		if (rec.obj_ptr->diffuse > 0)
 		{
-			emited.x = rec.obj_ptr->diffuse * rec.obj_ptr->red / (float)255;
-			emited.y = rec.obj_ptr->diffuse * rec.obj_ptr->green / (float)255;
-			emited.z = rec.obj_ptr->diffuse * rec.obj_ptr->blue / (float)255;
+			emited.x = rec.obj_ptr->diffuse * rec.obj_ptr->red;
+			emited.y = rec.obj_ptr->diffuse * rec.obj_ptr->green;
+			emited.z = rec.obj_ptr->diffuse * rec.obj_ptr->blue;
 		}
 		else
 			emited = new_vector(0,0,0);
 		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
-		{
-			tmp2 = get_color(env, &sec_ray, depth + 1);
-			tmp.x = rec.obj_ptr->red / (float)255 * tmp2.x;
-			tmp.y = rec.obj_ptr->green / (float)255 * tmp2.y;
-			tmp.z = rec.obj_ptr->blue / (float)255 * tmp2.z;
-			return (tmp);
-		}
+			return (get_constant_texture(&rec, get_color(env, &sec_ray, depth + 1)));
 		else
 			return (emited);
 	}
@@ -50,7 +43,7 @@ t_vector	get_color(t_env *env, const t_ray *prim_ray, int depth)
 		return (background_color(SKY_BACKGROUND, prim_ray));
 }
 
-void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
+static void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
 {
 	float	u;
 	float	v;
@@ -62,7 +55,7 @@ void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
 	ray->dir.z = cam->up_left.z + u * cam->hori.z - v * cam->vert.z - cam->pos_z;
 }
 
-void	*thread_fnc(void *data)
+void			*thread_fnc(void *data)
 {
 	int 			i;
 	int				k;
@@ -94,7 +87,7 @@ void	*thread_fnc(void *data)
     pthread_exit(NULL);
 }
 
-void	draw_img(t_img *img, t_env *env)
+void			draw_img(t_img *img, t_env *env)
 {
 	t_ray			ray;
 	t_thread_arg	thread_arg;
@@ -123,14 +116,14 @@ void	draw_img(t_img *img, t_env *env)
 	free(thread);
 }
 
-int					key_hook(int k, t_img *mlx)
+int				key_hook(int k, t_img *mlx)
 {
 	if (k == 53)
 		clean_quit(mlx);
 	return (0);
 }
 
-void	render(t_env *env)
+void			render(t_env *env)
 {
 	t_img	*img;
 
@@ -142,9 +135,11 @@ void	render(t_env *env)
 														&(img->endian));
 	mlx_hook(img->win, 17, 0, clean_quit, img);
 	mlx_key_hook(img->win, key_hook, img);
+	set_texture(env, img);
 	draw_img(img, env);
 	mlx_put_image_to_window(img->mlx, img->win, img->ptr, 0, 0);
 	printf("rendered\n");
 	mlx_loop(img->mlx);
 	destroy_img(img);
+	(void)env;
 }

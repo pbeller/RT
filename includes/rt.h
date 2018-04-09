@@ -1,21 +1,21 @@
 #ifndef RT_H
 # define RT_H
-# include "vector.h"
 # include <math.h>
 # include <stdlib.h>
 # include <stdio.h>
-# include "camera.h"
-# include "object.h"
-# include "env.h"
 # include <float.h>
 # include <pthread.h>
+# include "object.h"
+# include "vector.h"
+# include "camera.h"
+# include "env.h"
 # include "image.h"
 
 # define WIN_WIDTH 900
 # define WIN_HEIGH 450
 # define AA_STRENGH 10
 # define RAY_DEPTH 10
-# define SKY_BACKGROUND 0
+# define SKY_BACKGROUND 1
 
 typedef struct s_ray
 {
@@ -26,6 +26,8 @@ typedef struct s_ray
 typedef struct s_hit_rec
 {
 	float		t;
+	float		u;
+	float		v;
 	t_vector	p;
 	t_vector	normal;
 	t_object	*obj_ptr;

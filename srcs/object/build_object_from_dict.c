@@ -10,11 +10,11 @@ void				build_object_from_dict(t_object *object, t_dict *dict)
 	ret_val = dict_get_with_default(dict, "type", "0");
 	object->type = twl_strdup(ret_val);
 	ret_val = dict_get_with_default(dict, "red", "0");
-	object->red = atoi(ret_val);
+	object->red = atoi(ret_val) / 255.0;
 	ret_val = dict_get_with_default(dict, "green", "0");
-	object->green = atoi(ret_val);
+	object->green = atoi(ret_val) / 255.0;
 	ret_val = dict_get_with_default(dict, "blue", "0");
-	object->blue = atoi(ret_val);
+	object->blue = atoi(ret_val) / 255.0;
 	ret_val = dict_get_with_default(dict, "pos_x", "0");
 	object->pos_x = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "pos_y", "0");
@@ -39,4 +39,6 @@ void				build_object_from_dict(t_object *object, t_dict *dict)
 	object->reflection = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "refraction", "0");
 	object->refraction = atof(ret_val);
+	ret_val = dict_get_with_default(dict, "xpm_texture_file", "");
+	object->texture.file = twl_strdup(ret_val);
 }
