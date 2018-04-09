@@ -1,6 +1,6 @@
 #include "scatter.h"
 
-int			scatter_lamberian(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int			scatter_lamberian(t_hit_rec *rec, t_ray *scatter)
 {
 	t_vector		target;
 	t_vector		rand_unit_vect;
@@ -15,9 +15,5 @@ int			scatter_lamberian(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation,
 	scatter->dir.x = target.x - rec->p.x;
 	scatter->dir.y = target.y - rec->p.y;
 	scatter->dir.z = target.z - rec->p.z;
-	attenuation->x = rec->obj_ptr->red / (float)255;
-	attenuation->y = rec->obj_ptr->green / (float)255;
-	attenuation->z = rec->obj_ptr->blue / (float)255;
-	(void)ray;
 	return (1);
 }

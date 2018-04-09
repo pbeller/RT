@@ -6,18 +6,17 @@ t_vector	get_color(t_env *env, const t_ray *prim_ray, int depth)
 	float			t;
 	t_hit_rec		rec;
 	t_ray			sec_ray;
-	t_vector		att;
 	t_vector		tmp;
 	t_vector		tmp2;
 
 	if (hit(env, prim_ray, &rec))
 	{
-		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &att, &sec_ray))
+		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
 		{
 			tmp2 = get_color(env, &sec_ray, depth + 1);
-			tmp.x = att.x *tmp2.x;
-			tmp.y = att.y *tmp2.y;
-			tmp.z = att.z *tmp2.z;
+			tmp.x = rec.obj_ptr->red / (float)255 *tmp2.x;
+			tmp.y = rec.obj_ptr->green / (float)255 *tmp2.y;
+			tmp.z = rec.obj_ptr->blue / (float)255 *tmp2.z;
 			return (tmp);
 		}
 		else

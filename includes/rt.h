@@ -41,7 +41,7 @@ typedef struct	s_thread_arg
 
 void	render(t_env *env);
 
-int		scatter(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter);
+int		scatter(const t_ray *ray, t_hit_rec *rec, t_ray *scatter);
 int		hit(t_env *env, const t_ray *ray, t_hit_rec *rec);
 void	init_camera(t_camera *cam, float aspect);
 #endif

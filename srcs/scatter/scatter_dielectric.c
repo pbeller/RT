@@ -34,7 +34,7 @@ static float	schlick(float cosine, float ref_idx)
 	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
-int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 {
 	t_vector	outward_normal;
 	t_vector	reflected;
@@ -44,9 +44,6 @@ int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_vector *attenuatio
 	float		cosine;
 
 	reflected = reflect(ray->dir, &rec->normal);
-	attenuation->x = rec->obj_ptr->red / (float)255;
-	attenuation->y = rec->obj_ptr->green / (float)255;
-	attenuation->z = rec->obj_ptr->blue / (float)255;
 	if (scal_prod(&ray->dir, &rec->normal) > 0)
 	{
 		outward_normal.x = -rec->normal.x;
