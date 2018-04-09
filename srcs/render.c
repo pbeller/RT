@@ -1,35 +1,53 @@
 #include "rt.h"
 
-t_vector	get_color(t_env *env, const t_ray *prim_ray, int depth)
+static t_vector	background_color(int is_sky, const t_ray *prim_ray)
 {
-	t_vector		color;
-	float			t;
-	t_hit_rec		rec;
-	t_ray			sec_ray;
-	t_vector		tmp;
-	t_vector		tmp2;
+	t_vector	color;
+	float		t;
 
-	if (hit(env, prim_ray, &rec))
-	{
-		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
-		{
-			tmp2 = get_color(env, &sec_ray, depth + 1);
-			tmp.x = rec.obj_ptr->red / (float)255 *tmp2.x;
-			tmp.y = rec.obj_ptr->green / (float)255 *tmp2.y;
-			tmp.z = rec.obj_ptr->blue / (float)255 *tmp2.z;
-			return (tmp);
-		}
-		else
-			return (new_vector(0, 0, 0));
-	}
-	else
+	if (is_sky)
 	{
 		t = 0.5 * (normalise(prim_ray->dir).y + 1.0);
 		color.x = (1.0 - t) + t * 0.5;
 		color.y = (1.0 - t) + t * 0.7;
 		color.z = (1.0 - t) + t * 1.0;
-		return (color);
 	}
+	else
+		color = new_vector(0,0,0);
+	return (color);
+}
+
+t_vector	get_color(t_env *env, const t_ray *prim_ray, int depth)
+{
+	t_hit_rec		rec;
+	t_ray			sec_ray;
+	t_vector		tmp;
+	t_vector		tmp2;
+	t_vector		emited;
+
+	if (hit(env, prim_ray, &rec))
+	{
+		if (rec.obj_ptr->diffuse > 0)
+		{
+			emited.x = rec.obj_ptr->diffuse * rec.obj_ptr->red / (float)255;
+			emited.y = rec.obj_ptr->diffuse * rec.obj_ptr->green / (float)255;
+			emited.z = rec.obj_ptr->diffuse * rec.obj_ptr->blue / (float)255;
+		}
+		else
+			emited = new_vector(0,0,0);
+		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
+		{
+			tmp2 = get_color(env, &sec_ray, depth + 1);
+			tmp.x = rec.obj_ptr->red / (float)255 * tmp2.x;
+			tmp.y = rec.obj_ptr->green / (float)255 * tmp2.y;
+			tmp.z = rec.obj_ptr->blue / (float)255 * tmp2.z;
+			return (tmp);
+		}
+		else
+			return (emited);
+	}
+	else
+		return (background_color(SKY_BACKGROUND, prim_ray));
 }
 
 void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
@@ -52,6 +70,7 @@ void	*thread_fnc(void *data)
 	t_thread_arg *thread_arg;
 	int				j;
 	t_ray			ray;
+	t_vector		test;
 
 	thread_arg = (t_thread_arg*)data;
 	pthread_mutex_lock(&thread_arg->mutex);
@@ -67,7 +86,8 @@ void	*thread_fnc(void *data)
 		while (++k < AA_STRENGH)
 		{
 			get_ray(&ray, thread_arg->env->camera, i, j);
-			col = add_vector(col, get_color(thread_arg->env, &ray, 0));
+			test = get_color(thread_arg->env, &ray, 0);
+			col = add_vector(col, test);
 		}
 		put_pixel(thread_arg->img, i, j, &col);
 	}
@@ -124,6 +144,7 @@ void	render(t_env *env)
 	mlx_key_hook(img->win, key_hook, img);
 	draw_img(img, env);
 	mlx_put_image_to_window(img->mlx, img->win, img->ptr, 0, 0);
+	printf("rendered\n");
 	mlx_loop(img->mlx);
 	destroy_img(img);
 }

@@ -27,6 +27,8 @@ t_vector	random_in_unit_sphere()
 
 int			scatter(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 {
+	if (rec->obj_ptr->diffuse > 0)
+		return (false);
 	if (rec->obj_ptr->refraction > 0)
 		return (scatter_dielectric(ray, rec, scatter));
 	if (rec->obj_ptr->reflection > 0)
