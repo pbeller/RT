@@ -18,7 +18,7 @@ t_object			*object_new()
 	object->radius = 0.0;
 	object->ambient = 0.0;
 	object->diffuse = 0.0;
-	object->specular = 0.0;
+	object->transparence = 1.0;
 	object->reflection = 0.0;
 	object->refraction = 0.0;
 	object->texture.ptr = 0;

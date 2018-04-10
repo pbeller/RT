@@ -31,7 +31,7 @@ typedef struct 		s_object
 	float			radius;
 	float			ambient;
 	float			diffuse;
-	float			specular;
+	float			transparence;
 	float			reflection;
 	float			refraction;
 	t_tex			texture;

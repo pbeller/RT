@@ -42,7 +42,9 @@ int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 	t_vector	refracted;
 	float		reflect_prob;
 	float		cosine;
+	t_vector		rand_unit_vect;
 
+	rand_unit_vect = random_in_unit_sphere();
 	reflected = reflect(ray->dir, &rec->normal);
 	if (scal_prod(&ray->dir, &rec->normal) > 0)
 	{
@@ -64,32 +66,24 @@ int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 	if (refract(&ray->dir, &outward_normal, ni_over_nt, &refracted))
 		reflect_prob = schlick(cosine, rec->obj_ptr->refraction);
 	else
-	{
-		scatter->ori.x = rec->p.x;
-		scatter->ori.y = rec->p.y;
-		scatter->ori.z = rec->p.z;
-		scatter->dir.x = reflected.x;
-		scatter->dir.y = reflected.y;
-		scatter->dir.z = reflected.z;
 		reflect_prob = 1.0;
-	}
 	if (drand48() < reflect_prob)
 	{
 		scatter->ori.x = rec->p.x;
 		scatter->ori.y = rec->p.y;
 		scatter->ori.z = rec->p.z;
-		scatter->dir.x = reflected.x;
-		scatter->dir.y = reflected.y;
-		scatter->dir.z = reflected.z;
+		scatter->dir.x = reflected.x + (1 - rec->obj_ptr->reflection) * rand_unit_vect.x;
+		scatter->dir.y = reflected.y + (1 - rec->obj_ptr->reflection) * rand_unit_vect.y;
+		scatter->dir.z = reflected.z + (1 - rec->obj_ptr->reflection) * rand_unit_vect.z;
 	}
 	else
 	{
 		scatter->ori.x = rec->p.x;
 		scatter->ori.y = rec->p.y;
 		scatter->ori.z = rec->p.z;
-		scatter->dir.x = refracted.x;
-		scatter->dir.y = refracted.y;
-		scatter->dir.z = refracted.z;
+		scatter->dir.x = refracted.x + (1 - rec->obj_ptr->transparence) * rand_unit_vect.x;
+		scatter->dir.y = refracted.y + (1 - rec->obj_ptr->transparence) * rand_unit_vect.y;
+		scatter->dir.z = refracted.z + (1 - rec->obj_ptr->transparence) * rand_unit_vect.z;
 	}
 	return (1);
 }

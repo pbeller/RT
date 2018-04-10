@@ -33,8 +33,8 @@ void				build_object_from_dict(t_object *object, t_dict *dict)
 	object->ambient = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "diffuse", "0");
 	object->diffuse = atof(ret_val);
-	ret_val = dict_get_with_default(dict, "specular", "0");
-	object->specular = atof(ret_val);
+	ret_val = dict_get_with_default(dict, "transparence", "0");
+	object->transparence = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "reflection", "0");
 	object->reflection = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "refraction", "0");
