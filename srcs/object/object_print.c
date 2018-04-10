@@ -17,7 +17,7 @@ void				object_print(t_object *object)
 	printf("radius: %f\n", object->radius);
 	printf("ambient: %f\n", object->ambient);
 	printf("diffuse: %f\n", object->diffuse);
-	printf("specular: %f\n", object->specular);
+	printf("transparence: %f\n", object->transparence);
 	printf("reflection: %f\n", object->reflection);
 	printf("refraction: %f\n", object->refraction);
 	printf("xpm_texture_file: %s\n", object->texture.file);
