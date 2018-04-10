@@ -42,7 +42,7 @@ typedef struct	s_thread_arg
     pthread_mutex_t mutex;
 } 				t_thread_arg;
 
-void	render(t_env *env);
+void			draw_img(t_img *img, t_env *env);
 
 int		scatter(const t_ray *ray, t_hit_rec *rec, t_ray *scatter);
 int		hit(t_env *env, const t_ray *ray, t_hit_rec *rec);

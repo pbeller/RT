@@ -21,5 +21,13 @@ t_object			*object_new()
 	object->specular = 0.0;
 	object->reflection = 0.0;
 	object->refraction = 0.0;
+	object->texture.ptr = 0;
+	object->texture.file = 0;
+	object->texture.buffer = 0;
+	object->texture.width = 0;
+	object->texture.height = 0;
+	object->texture.line_s = 0;
+	object->texture.bpp = 0;
+	object->texture.endian = 0;
 	return (object);
 }

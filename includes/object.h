@@ -6,14 +6,14 @@
 
 typedef struct 		s_tex
 {
-	void		*ptr;
-	char		*file;
-	int			*buffer;
-	int			bpp;
-	int			line_s;
-	int			endian;
-	int			width;
-	int			height;
+	void			*ptr;
+	char			*file;
+	int				*buffer;
+	int				bpp;
+	int				line_s;
+	int				endian;
+	int				width;
+	int				height;
 }					t_tex;
 
 typedef struct 		s_object

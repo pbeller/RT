@@ -35,7 +35,7 @@ t_vector		get_color(t_env *env, const t_ray *prim_ray, int depth)
 		else
 			emited = new_vector(0,0,0);
 		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
-			return (get_constant_texture(&rec, get_color(env, &sec_ray, depth + 1)));
+			return (get_texture(&rec, get_color(env, &sec_ray, depth + 1)));
 		else
 			return (emited);
 	}
@@ -106,7 +106,7 @@ void			draw_img(t_img *img, t_env *env)
 	ray.ori.z = env->camera->pos_z;
 	thread_arg.j = 0;
 	j = -1;
-    pthread_mutex_init ( &thread_arg.mutex, NULL);
+    pthread_mutex_init (&thread_arg.mutex, NULL);
 	while (++j < WIN_HEIGH)
 		(pthread_create(&thread[j], NULL, thread_fnc, &thread_arg) != 0)
 															? exit(3) : 0;
@@ -116,13 +116,7 @@ void			draw_img(t_img *img, t_env *env)
 	free(thread);
 }
 
-int				key_hook(int k, t_img *mlx)
-{
-	if (k == 53)
-		clean_quit(mlx);
-	return (0);
-}
-
+/*
 void			render(t_env *env)
 {
 	t_img	*img;
@@ -141,5 +135,4 @@ void			render(t_env *env)
 	printf("rendered\n");
 	mlx_loop(img->mlx);
 	destroy_img(img);
-	(void)env;
-}
+}*/
