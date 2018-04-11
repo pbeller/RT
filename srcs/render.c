@@ -115,24 +115,3 @@ void			draw_img(t_img *img, t_env *env)
 		pthread_join(thread[i], NULL);
 	free(thread);
 }
-
-/*
-void			render(t_env *env)
-{
-	t_img	*img;
-
-	(!(img = (t_img*)malloc(sizeof(t_img)))) ? exit(-1) : 0;
-	img->mlx = mlx_init();
-	img->win = mlx_new_window(img->mlx, WIN_WIDTH, WIN_HEIGH, "RT");
-	img->ptr = mlx_new_image(img->mlx, WIN_WIDTH, WIN_HEIGH);
-	img->buffer = (int*)mlx_get_data_addr(img->ptr, &(img->bpp), &(img->line_s),
-														&(img->endian));
-	mlx_hook(img->win, 17, 0, clean_quit, img);
-	mlx_key_hook(img->win, key_hook, img);
-	set_texture(env, img);
-	draw_img(img, env);
-	mlx_put_image_to_window(img->mlx, img->win, img->ptr, 0, 0);
-	printf("rendered\n");
-	mlx_loop(img->mlx);
-	destroy_img(img);
-}*/

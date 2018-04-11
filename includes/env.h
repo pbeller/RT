@@ -7,7 +7,7 @@
 # include "twl_lst.h"
 # include "utils.h"
 
-# define VALIDE_TYPE "camera,light,plane,sphere"
+# define VALIDE_TYPE "camera,light,plane,sphere,cylindre"
 
 typedef struct  s_env
 {
