@@ -71,10 +71,8 @@ int		sphere_coup_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float c
 	float		temp0;
 	float		discrim;
 	t_ray		r;
-	int niv_coup;
 
 	r = *ray;
-	niv_coup = 0;
 	r = rotation_x(object, &r);
 	r = rotation_y(object, &r);
 	r = rotation_z(object, &r);
@@ -96,61 +94,5 @@ int		sphere_coup_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float c
 		temp0 = temp1;
 		temp1 = tmp;
 	}
-	float y0 = r.ori.y + temp0 * r.dir.y - object->pos_y;
-	float y1 = r.ori.y + temp1 * r.dir.y -  object->pos_y;
-	if (y0 < niv_coup)
-	{
-		if(y1 <niv_coup)
-			return (0);
-		else
-		{
-			float th = temp0 + (temp1 - temp0) * (y0 + 1) / (y0-y1);
-			if(th <= 0)
-				return (0);
-			if(th < closest && th > 0.001 )
-			{
-				rec->t = th;
-				point_at(&r, th, &rec->p);
-				rec->normal.x = 0;
-				rec->normal.y = -1;
-				rec->normal.z = 0;
-				return (1);
-			}
-		}
-	}
-	else if(y0 >= -object->radius && y0 <= object->radius)
-	{
-		if(temp0 <= 0)
-			return (0);
-		if(temp0 < closest && temp0 > 0.001)
-		{
-			rec->t = temp0;
-			point_at(&r, temp0, &rec->p);
-			rec->normal.x = (rec->p.x - object->pos_x)/object->radius;
-			rec->normal.y = 0;
-			rec->normal.z = (rec->p.z - object->pos_z)/object->radius;
-			return (1);
-		}
-	}
-	else if (y0 > object->radius)
-	{
-		if(y1 > object->radius)
-			return 0;
-		else
-		{
-			float th = temp0 + (temp1-temp0) * (y0 - 1) / (y0-y1);
-			if(th <= 0)
-				return(0);
-			if(th < closest && th > 0.001)
-			{
-				rec->t = th;
-				point_at(&r, th, &rec->p);
-				rec->normal.x = 0;
-				rec->normal.y = 1;
-				rec->normal.z = 0;
-				return (1);
-			}
-		}
-	}
-	return (0);
+	return (decoupage(object,r,rec,closest,temp0,temp1,'y'));
 }
