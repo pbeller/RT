@@ -19,10 +19,6 @@ static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float 
 		return (cylindre_hit(object,ray,rec,closest));
 	if(twl_strcmp(object->type, "tube") == 0)
 		return (tube_hit(object,ray,rec,closest));
-	if (twl_strcmp(object->type, "spherecoup") == 0)
-		return (sphere_coup_hit(object, ray, rec, closest));
-//	if(twl_strcmp(object->type, "sastantua") == 0)
-//		return (sastantua_hit(object,ray,rec,closest));
 	return(0);
 }
 
