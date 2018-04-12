@@ -1,5 +1,16 @@
 #include "shape.h"
 
+static void	get_sphere_u_v(const t_vector *p, float *u, float *v)
+{
+	float	phi;
+	float	theta;
+
+	phi = atan2(p->z, p->x);
+	theta = asin(p->y);
+	*u = 1 - (phi + M_PI) / (2 * M_PI);
+	*v = (theta + M_PI / 2) / (M_PI);
+}
+
 static int	get_values(t_object *object, const t_ray *ray, t_hit_rec *rec, float tmp)
 {
 	rec->t = tmp;
@@ -7,6 +18,7 @@ static int	get_values(t_object *object, const t_ray *ray, t_hit_rec *rec, float 
 	rec->normal.x = (rec->p.x - object->pos_x) / object->radius;
 	rec->normal.y = (rec->p.y - object->pos_y) / object->radius;
 	rec->normal.z = (rec->p.z - object->pos_z) / object->radius;
+	get_sphere_u_v(&rec->normal, &rec->u, &rec->v);
 	return (1);
 }
 

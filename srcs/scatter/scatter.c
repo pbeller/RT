@@ -25,11 +25,13 @@ t_vector	random_in_unit_sphere()
 	return (p);
 }
 
-int			scatter(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int			scatter(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 {
+	if (rec->obj_ptr->diffuse > 0)
+		return (false);
 	if (rec->obj_ptr->refraction > 0)
-		return (scatter_dielectric(ray, rec, attenuation, scatter));
+		return (scatter_dielectric(ray, rec, scatter));
 	if (rec->obj_ptr->reflection > 0)
-		return (scatter_metal(ray, rec, attenuation, scatter));
-	return (scatter_lamberian(ray, rec, attenuation, scatter));
+		return (scatter_metal(ray, rec, scatter));
+	return (scatter_lamberian(rec, scatter));
 }

@@ -4,12 +4,24 @@
 #include "twl_dict.h"
 #include "twl_lst.h"
 
+typedef struct 		s_tex
+{
+	void			*ptr;
+	char			*file;
+	int				*buffer;
+	int				bpp;
+	int				line_s;
+	int				endian;
+	int				width;
+	int				height;
+}					t_tex;
+
 typedef struct 		s_object
 {
 	char			*type;
-	int				red;
-	int				green;
-	int				blue;
+	float			red;
+	float			green;
+	float			blue;
 	float			pos_x;
 	float			pos_y;
 	float			pos_z;
@@ -19,9 +31,10 @@ typedef struct 		s_object
 	float			radius;
 	float			ambient;
 	float			diffuse;
-	float			specular;
+	float			transparence;
 	float			reflection;
 	float			refraction;
+	t_tex			texture;
 }					t_object;
 
 t_object			*object_new();

@@ -34,7 +34,7 @@ static float	schlick(float cosine, float ref_idx)
 	return (r0 + (1 - r0) * pow((1 - cosine), 5));
 }
 
-int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_vector *attenuation, t_ray *scatter)
+int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 {
 	t_vector	outward_normal;
 	t_vector	reflected;
@@ -42,11 +42,10 @@ int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_vector *attenuatio
 	t_vector	refracted;
 	float		reflect_prob;
 	float		cosine;
+	t_vector		rand_unit_vect;
 
+	rand_unit_vect = random_in_unit_sphere();
 	reflected = reflect(ray->dir, &rec->normal);
-	attenuation->x = rec->obj_ptr->red / (float)255;
-	attenuation->y = rec->obj_ptr->green / (float)255;
-	attenuation->z = rec->obj_ptr->blue / (float)255;
 	if (scal_prod(&ray->dir, &rec->normal) > 0)
 	{
 		outward_normal.x = -rec->normal.x;
@@ -67,32 +66,24 @@ int				scatter_dielectric(const t_ray *ray, t_hit_rec *rec, t_vector *attenuatio
 	if (refract(&ray->dir, &outward_normal, ni_over_nt, &refracted))
 		reflect_prob = schlick(cosine, rec->obj_ptr->refraction);
 	else
-	{
-		scatter->ori.x = rec->p.x;
-		scatter->ori.y = rec->p.y;
-		scatter->ori.z = rec->p.z;
-		scatter->dir.x = reflected.x;
-		scatter->dir.y = reflected.y;
-		scatter->dir.z = reflected.z;
 		reflect_prob = 1.0;
-	}
 	if (drand48() < reflect_prob)
 	{
 		scatter->ori.x = rec->p.x;
 		scatter->ori.y = rec->p.y;
 		scatter->ori.z = rec->p.z;
-		scatter->dir.x = reflected.x;
-		scatter->dir.y = reflected.y;
-		scatter->dir.z = reflected.z;
+		scatter->dir.x = reflected.x + (1 - rec->obj_ptr->reflection) * rand_unit_vect.x;
+		scatter->dir.y = reflected.y + (1 - rec->obj_ptr->reflection) * rand_unit_vect.y;
+		scatter->dir.z = reflected.z + (1 - rec->obj_ptr->reflection) * rand_unit_vect.z;
 	}
 	else
 	{
 		scatter->ori.x = rec->p.x;
 		scatter->ori.y = rec->p.y;
 		scatter->ori.z = rec->p.z;
-		scatter->dir.x = refracted.x;
-		scatter->dir.y = refracted.y;
-		scatter->dir.z = refracted.z;
+		scatter->dir.x = refracted.x + (1 - rec->obj_ptr->transparence) * rand_unit_vect.x;
+		scatter->dir.y = refracted.y + (1 - rec->obj_ptr->transparence) * rand_unit_vect.y;
+		scatter->dir.z = refracted.z + (1 - rec->obj_ptr->transparence) * rand_unit_vect.z;
 	}
 	return (1);
 }
