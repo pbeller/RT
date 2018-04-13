@@ -50,9 +50,9 @@ static void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
 
 	u = (float)(i + drand48()) / (float)WIN_WIDTH;
 	v = (float)(j + drand48()) / (float)WIN_HEIGH;
-	ray->dir.x = cam->up_left.x + u * cam->hori.x - v * cam->vert.x - cam->pos_x;
-	ray->dir.y = cam->up_left.y + u * cam->hori.y - v * cam->vert.y - cam->pos_y;
-	ray->dir.z = cam->up_left.z + u * cam->hori.z - v * cam->vert.z - cam->pos_z;
+	ray->dir.x = cam->up_left.x + u * cam->hori.x - v * cam->vert.x - cam->pos.x;
+	ray->dir.y = cam->up_left.y + u * cam->hori.y - v * cam->vert.y - cam->pos.y;
+	ray->dir.z = cam->up_left.z + u * cam->hori.z - v * cam->vert.z - cam->pos.z;
 }
 
 void			*thread_fnc(void *data)
@@ -101,9 +101,9 @@ void			draw_img(t_img *img, t_env *env)
 	thread_arg.env = env;
 	thread_arg.img = img;
 	init_camera(env->camera, (float)WIN_WIDTH / (float)WIN_HEIGH);
-	ray.ori.x = env->camera->pos_x;
-	ray.ori.y = env->camera->pos_y;
-	ray.ori.z = env->camera->pos_z;
+	ray.ori.x = env->camera->pos.x;
+	ray.ori.y = env->camera->pos.y;
+	ray.ori.z = env->camera->pos.z;
 	thread_arg.j = 0;
 	j = -1;
     pthread_mutex_init (&thread_arg.mutex, NULL);

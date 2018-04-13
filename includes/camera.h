@@ -6,9 +6,7 @@
 
 typedef struct  s_camera
 {
-	float 			pos_x;
-	float 			pos_y;
-	float 			pos_z;
+	t_vector		pos;
 	float 			dir_x;
 	float 			dir_y;
 	float 			dir_z;

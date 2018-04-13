@@ -9,9 +9,9 @@ t_object			*object_new()
 	object->red = 0;
 	object->green = 0;
 	object->blue = 0;
-	object->pos_x = 0.0;
-	object->pos_y = 0.0;
-	object->pos_z = 0.0;
+	object->pos.x = 0.0;
+	object->pos.y = 0.0;
+	object->pos.z = 0.0;
 	object->rot_x = 0.0;
 	object->rot_y = 0.0;
 	object->rot_z = 0.0;

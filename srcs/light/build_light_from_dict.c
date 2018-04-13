@@ -6,12 +6,12 @@ void				build_light_from_dict(t_light *light, t_dict *dict)
 {
 	char			*ret_val;
 
-	ret_val = dict_get_with_default(dict, "pos_x", "0");
-	light->pos_x = atof(ret_val);
-	ret_val = dict_get_with_default(dict, "pos_y", "0");
-	light->pos_y = atof(ret_val);
-	ret_val = dict_get_with_default(dict, "pos_z", "0");
-	light->pos_z = atof(ret_val);
+	ret_val = dict_get_with_default(dict, "pos.x", "0");
+	light->pos.x = atof(ret_val);
+	ret_val = dict_get_with_default(dict, "pos.y", "0");
+	light->pos.y = atof(ret_val);
+	ret_val = dict_get_with_default(dict, "pos.z", "0");
+	light->pos.z = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "intensity", "0");
 	light->intensity = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "red", "0");

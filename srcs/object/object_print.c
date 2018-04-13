@@ -8,9 +8,9 @@ void				object_print(t_object *object)
 	printf("red: %f\n", object->red);
 	printf("green: %f\n", object->green);
 	printf("blue: %f\n", object->blue);
-	printf("pos_x: %f\n", object->pos_x);
-	printf("pos_y: %f\n", object->pos_y);
-	printf("pos_z: %f\n", object->pos_z);
+	printf("pos.x: %f\n", object->pos.x);
+	printf("pos.y: %f\n", object->pos.y);
+	printf("pos.z: %f\n", object->pos.z);
 	printf("rot_x: %f\n", object->rot_x);
 	printf("rot_y: %f\n", object->rot_y);
 	printf("rot_z: %f\n", object->rot_z);

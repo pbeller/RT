@@ -3,13 +3,12 @@
 
 #include "twl_lst.h"
 #include "twl_dict.h"
+#include "vector.h"
 
 
 typedef				struct s_light
 {
-	float			pos_x;
-	float			pos_y;
-	float			pos_z;
+	t_vector		pos;
 	float			intensity;
 	float			red;
 	float			green;
