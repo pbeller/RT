@@ -11,6 +11,9 @@ int 		decoupage(t_object *object, t_ray r, t_hit_rec *rec, float closest,float t
 t_ray		rotation_x(t_object *object, t_ray *ray);
 t_ray		rotation_y(t_object *object, t_ray *ray);
 t_ray		rotation_z(t_object *object, t_ray *ray);
-
+int			xy_rectangle_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest);
+int			yz_rectangle_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest);
+int			xz_rectangle_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest);
+int			cube_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest);
 
 #endif

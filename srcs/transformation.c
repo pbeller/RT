@@ -94,7 +94,7 @@ int decoupage(t_object *object, t_ray r, t_hit_rec *rec, float closest,float tem
 			float th = temp0 + (temp1 - temp0) * (axe0 + 1) / (axe0-axe1);
 			if(th <= 0)
 				return (0);
-			if(th < closest && th > 0.001)
+			if(th < closest && th > MIN_CLOSEST)
 			{
 				rec->t = th;
 				point_at(&r, th, &rec->p);
@@ -109,7 +109,7 @@ int decoupage(t_object *object, t_ray r, t_hit_rec *rec, float closest,float tem
 	{
 		if(temp0 <= 0)
 			return (0);
-		if(temp0 < closest && temp0 > 0.001)
+		if(temp0 < closest && temp0 > MIN_CLOSEST)
 		{
 			rec->t = temp0;
 			point_at(&r, temp0, &rec->p);
@@ -128,7 +128,7 @@ int decoupage(t_object *object, t_ray r, t_hit_rec *rec, float closest,float tem
 			float th = temp0 + (temp1-temp0) * (axe0 - 1) / (axe0-axe1);
 			if(th <= 0)
 				return(0);
-			if(th < closest && th > 0.001)
+			if(th < closest && th > MIN_CLOSEST)
 			{
 				rec->t = th;
 				point_at(&r, th, &rec->p);

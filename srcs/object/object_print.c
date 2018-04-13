@@ -15,6 +15,7 @@ void				object_print(t_object *object)
 	printf("rot_y: %f\n", object->rot_y);
 	printf("rot_z: %f\n", object->rot_z);
 	printf("radius: %f\n", object->radius);
+	printf("size: %f\n", object->size);
 	printf("ambient: %f\n", object->ambient);
 	printf("diffuse: %f\n", object->diffuse);
 	printf("transparence: %f\n", object->transparence);

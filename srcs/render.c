@@ -14,7 +14,7 @@ static t_vector	background_color(int is_sky, const t_ray *prim_ray)
 		color.z = (1.0 - t) + t * 1.0;
 	}
 	else
-		color = new_vector(0,0,0);
+		color = new_vector(MIN_LIGHT,MIN_LIGHT,MIN_LIGHT);
 	return (color);
 }
 

@@ -28,13 +28,13 @@ int		tube_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 	rec->normal.z = (rec->p.z - object->pos_z) / object->radius;
 
 		tmp = (-b - sqrt(b*b - a*c)) / a;
-		if (0.001 < tmp && tmp < closest)
+		if (MIN_CLOSEST < tmp && tmp < closest)
 		{rec->t = tmp;
 			point_at(&r, tmp, &rec->p);
 			return (1);
 		}
 		tmp = (-b + sqrt(b*b - a*c)) / a;
-		if (0.001 < tmp && tmp < closest)
+		if (MIN_CLOSEST < tmp && tmp < closest)
 		{rec->t = tmp;
 			point_at(&r, tmp, &rec->p);
 			return (1);
