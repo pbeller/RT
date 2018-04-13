@@ -1,14 +1,14 @@
 #include "shape.h"
 
-void		point_at(const t_ray *ray, float t, t_vector *tmp)
+void		point_at(const t_ray *ray, float t, t_vector *p)
 {
-	tmp->x = ray->dir.x * t;
-	tmp->y = ray->dir.y * t;
-	tmp->z = ray->dir.z * t;
+	p->x = ray->dir.x * t;
+	p->y = ray->dir.y * t;
+	p->z = ray->dir.z * t;
 
-	tmp->x = tmp->x + ray->ori.x;
-	tmp->y = tmp->y + ray->ori.y;
-	tmp->z = tmp->z + ray->ori.z;
+	p->x = p->x + ray->ori.x;
+	p->y = p->y + ray->ori.y;
+	p->z = p->z + ray->ori.z;
 }
 
 static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
