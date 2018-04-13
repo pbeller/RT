@@ -13,9 +13,9 @@ int		tube_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 	r = rotation_x(object, &r);
 	r = rotation_y(object, &r);
 	r = rotation_z(object, &r);
-	oc.x = r.ori.x - object->pos_x;
+	oc.x = r.ori.x;
 	oc.y = 0;
-	oc.z = r.ori.z - object->pos_z;
+	oc.z = r.ori.z;
 	a = r.dir.x * r.dir.x + r.dir.z * r.dir.z;
 	b = (oc.x * r.dir.x + oc.z * r.dir.z);
 	c = (oc.x * oc.x + oc.y * oc.y + oc.z * oc.z) - object->radius * object->radius;
@@ -23,9 +23,9 @@ int		tube_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 	closest = FLT_MAX;
 	if (tmp > 0)
 	{	
-	rec->normal.x = (rec->p.x - object->pos_x) / object->radius;
+	rec->normal.x = (rec->p.x) / object->radius;
 	rec->normal.y = -1;
-	rec->normal.z = (rec->p.z - object->pos_z) / object->radius;
+	rec->normal.z = (rec->p.z) / object->radius;
 
 		tmp = (-b - sqrt(b*b - a*c)) / a;
 		if (MIN_CLOSEST < tmp && tmp < closest)

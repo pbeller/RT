@@ -12,18 +12,9 @@ int		cylindre_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float clos
 	t_ray		r;
 
 	r = *ray;
-	r.ori.x -= object->pos_x;
-	r.ori.y -= object->pos_y;
-	r.ori.z -= object->pos_z;
-	r = rotation_x(object, &r);
-	r = rotation_y(object, &r);
-	r = rotation_z(object, &r);
-	r.ori.x += object->pos_x;
-	r.ori.y += object->pos_y;
-	r.ori.z += object->pos_z;
-	oc.x = r.ori.x - object->pos_x;
+	oc.x = r.ori.x;
 	oc.y = 0;
-	oc.z = r.ori.z - object->pos_z;
+	oc.z = r.ori.z;
 	a = r.dir.x * r.dir.x + r.dir.z * r.dir.z;
 	b = (oc.x * r.dir.x + oc.z * r.dir.z);
 	c = (oc.x * oc.x + oc.y * oc.y +  oc.z * oc.z) - object->radius * object->radius;

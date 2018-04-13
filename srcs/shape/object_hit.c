@@ -29,7 +29,7 @@ static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float 
 		return (xy_rectangle_hit(object,ray,rec,closest));
 	return(0);
 }
-/*
+
 int			translate(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 {
 	t_ray	moved_r;
@@ -49,7 +49,7 @@ int			translate(t_object *object, const t_ray *ray, t_hit_rec *rec, float closes
 	}
 	return (0);
 }
-*/
+
 int			hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
 {
 	t_lst_elem__	*elem;
@@ -63,7 +63,7 @@ int			hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
 	while (elem)
 	{
 		next = elem->next;
-		if (object_hit(elem->data, ray, rec, closest))
+		if (translate(elem->data, ray, rec, closest))
 		{
 			hit = 1;
 			closest = rec->t;

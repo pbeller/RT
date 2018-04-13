@@ -15,9 +15,9 @@ static int	get_values(t_object *object, const t_ray *ray, t_hit_rec *rec, float 
 {
 	rec->t = tmp;
 	point_at(ray, tmp, &rec->p);
-	rec->normal.x = (rec->p.x - object->pos_x) / object->radius;
-	rec->normal.y = (rec->p.y - object->pos_y) / object->radius;
-	rec->normal.z = (rec->p.z - object->pos_z) / object->radius;
+	rec->normal.x = (rec->p.x) / object->radius;
+	rec->normal.y = (rec->p.y) / object->radius;
+	rec->normal.z = (rec->p.z) / object->radius;
 	get_sphere_u_v(&rec->normal, &rec->u, &rec->v);
 	return (1);
 }
@@ -32,19 +32,9 @@ int		sphere_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closes
 	t_ray		r;
 
 	r = *ray;
-/*	r.ori.x -= object->pos_x;
-	r.ori.y -= object->pos_y;
-	r.ori.z -= object->pos_z;*/
-	r = rotation_x(object, &r);
-	r = rotation_y(object, &r);
-	r = rotation_z(object, &r);
-/*	r.ori.x += object->pos_x;
-	r.ori.y += object->pos_y;
-	r.ori.z += object->pos_z;*/
-//	r = homothetie(&r,1,1,1);
-	oc.x = r.ori.x - object->pos_x;
-	oc.y = r.ori.y - object->pos_y;
-	oc.z = r.ori.z - object->pos_z;
+	oc.x = r.ori.x;
+	oc.y = r.ori.y;
+	oc.z = r.ori.z;
 	a = scal_prod(&r.dir, &r.dir);
 	b = scal_prod(&oc, &r.dir);
 	c = scal_prod(&oc, &oc) - (object->radius * object->radius);
@@ -73,13 +63,9 @@ int		sphere_coup_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float c
 	t_ray		r;
 
 	r = *ray;
-	r = rotation_x(object, &r);
-	r = rotation_y(object, &r);
-	r = rotation_z(object, &r);
-//	r = homothetie(&r,1,2,1);
-	oc.x = r.ori.x - object->pos_x;
-	oc.y = r.ori.y - object->pos_y;
-	oc.z = r.ori.z - object->pos_z;
+	oc.x = r.ori.x;
+	oc.y = r.ori.y;
+	oc.z = r.ori.z;
 	a = scal_prod(&r.dir, &r.dir);
 	b = scal_prod(&oc, &r.dir);
 	c = scal_prod(&oc, &oc) - (object->radius * object->radius);

@@ -67,18 +67,18 @@ int decoupage(t_object *object, t_ray r, t_hit_rec *rec, float closest,float tem
 	axe1 = 0;
 	if(axe == 'x')
 	{
-		axe0 = r.ori.x + temp0 * r.dir.x - object->pos_x;
-		axe1 = r.ori.x + temp1 * r.dir.x -  object->pos_x;
+		axe0 = r.ori.x + temp0 * r.dir.x;
+		axe1 = r.ori.x + temp1 * r.dir.x;
 	}
 	if(axe == 'y')
 	{
-		axe0 = r.ori.y + temp0 * r.dir.y - object->pos_y;
-		axe1 = r.ori.y + temp1 * r.dir.y -  object->pos_y;
+		axe0 = r.ori.y + temp0 * r.dir.y;
+		axe1 = r.ori.y + temp1 * r.dir.y;
 	}
 	if(axe == 'z')
 	{
-		axe0 = r.ori.z + temp0 * r.dir.z - object->pos_z;
-		axe1 = r.ori.z + temp1 * r.dir.z -  object->pos_z;
+		axe0 = r.ori.z + temp0 * r.dir.z;
+		axe1 = r.ori.z + temp1 * r.dir.z;
 	}
 	if(axe != 'x' && axe != 'y' && axe != 'z')
 	{
@@ -113,9 +113,9 @@ int decoupage(t_object *object, t_ray r, t_hit_rec *rec, float closest,float tem
 		{
 			rec->t = temp0;
 			point_at(&r, temp0, &rec->p);
-			rec->normal.x = (rec->p.x - object->pos_x)/object->radius;
+			rec->normal.x = (rec->p.x)/object->radius;
 			rec->normal.y = 0;
-			rec->normal.z = (rec->p.z - object->pos_z)/object->radius;
+			rec->normal.z = (rec->p.z)/object->radius;
 			return (1);
 		}
 	}
