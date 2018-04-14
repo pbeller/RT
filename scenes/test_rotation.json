@@ -134,7 +134,7 @@
 		refraction : 0,
 	},
 	{
-		type       : cube,
+		type       : sphere,
 		red        : 255,
 		green      : 255,
 		blue       : 255,
@@ -145,13 +145,13 @@
 		rot_y      : 0,
 		rot_z      : 0,
 		size       : 1,
-		radius     : 0,
+		radius     : 1,
 		ambient    : 0.0,
 		diffuse    : 0.0,
 		specular   : 0.0,
-		transparence : 1.0,
+		transparence : 0.0,
 		reflection : 1.0,
-		refraction : 1.0000,
+		refraction : 0.0000,
 	}
 	]
 	

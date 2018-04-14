@@ -8,11 +8,8 @@ int		tube_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 	float		c;
 	float		tmp;
 	t_ray		r;
-	
+
 	r = *ray;
-	r = rotation_x(object, &r);
-	r = rotation_y(object, &r);
-	r = rotation_z(object, &r);
 	oc.x = r.ori.x;
 	oc.y = 0;
 	oc.z = r.ori.z;

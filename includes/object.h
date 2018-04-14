@@ -3,6 +3,7 @@
 
 #include "twl_dict.h"
 #include "twl_lst.h"
+#include <math.h>
 #include "vector.h"
 
 typedef struct 		s_tex

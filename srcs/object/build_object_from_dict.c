@@ -22,11 +22,11 @@ void				build_object_from_dict(t_object *object, t_dict *dict)
 	ret_val = dict_get_with_default(dict, "pos.z", "0");
 	object->pos.z = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "rot_x", "0");
-	object->rot_x = atof(ret_val);
+	object->rot_x = atof(ret_val) * M_PI / 180.0;
 	ret_val = dict_get_with_default(dict, "rot_y", "0");
-	object->rot_y = atof(ret_val);
+	object->rot_y = atof(ret_val) * M_PI / 180.0;
 	ret_val = dict_get_with_default(dict, "rot_z", "0");
-	object->rot_z = atof(ret_val);
+	object->rot_z = atof(ret_val) * M_PI / 180.0;
 	ret_val = dict_get_with_default(dict, "radius", "1");
 	object->radius = atof(ret_val);
 	ret_val = dict_get_with_default(dict, "size", "1");

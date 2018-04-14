@@ -33,7 +33,7 @@ t_vector		get_color(t_env *env, const t_ray *prim_ray, int depth)
 			emited.z = rec.obj_ptr->diffuse * rec.obj_ptr->blue;
 		}
 		else
-			emited = new_vector(0,0,0);
+			emited = new_vector(MIN_EMITED, MIN_EMITED, MIN_EMITED);
 		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
 			return (get_texture(&rec, get_color(env, &sec_ray, depth + 1)));
 		else

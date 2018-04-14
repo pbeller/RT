@@ -11,7 +11,7 @@ void		point_at(const t_ray *ray, float t, t_vector *p)
 	p->z = p->z + ray->ori.z;
 }
 
-static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
+int			object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 {
 	if (twl_strcmp(object->type, "sphere") == 0)
 		return (sphere_hit(object, ray, rec, closest));
@@ -28,26 +28,6 @@ static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float 
 	if(twl_strcmp(object->type, "z_rectangle") == 0)
 		return (xy_rectangle_hit(object,ray,rec,closest));
 	return(0);
-}
-
-int			translate(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
-{
-	t_ray	moved_r;
-
-	moved_r.ori.x = ray->ori.x - object->pos.x;
-	moved_r.ori.y = ray->ori.y - object->pos.y;
-	moved_r.ori.z = ray->ori.z - object->pos.z;
-	moved_r.dir.x = ray->dir.x;
-	moved_r.dir.y = ray->dir.y;
-	moved_r.dir.z = ray->dir.z;
-	if (object_hit(object, &moved_r, rec, closest))
-	{
-		rec->p.x += object->pos.x;
-		rec->p.y += object->pos.y;
-		rec->p.z += object->pos.z;
-		return (1);
-	}
-	return (0);
 }
 
 int			hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
