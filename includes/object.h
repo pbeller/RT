@@ -3,6 +3,8 @@
 
 #include "twl_dict.h"
 #include "twl_lst.h"
+#include <math.h>
+#include "vector.h"
 
 typedef struct 		s_tex
 {
@@ -22,13 +24,12 @@ typedef struct 		s_object
 	float			red;
 	float			green;
 	float			blue;
-	float			pos_x;
-	float			pos_y;
-	float			pos_z;
+	t_vector		pos;
 	float			rot_x;
 	float			rot_y;
 	float			rot_z;
 	float			radius;
+	float			size;
 	float			ambient;
 	float			diffuse;
 	float			transparence;

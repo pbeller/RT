@@ -6,7 +6,6 @@ int			scatter_metal(const t_ray *ray, t_hit_rec *rec, t_ray *scatter)
 	t_vector		rand_unit_vect;
 
 	rand_unit_vect = random_in_unit_sphere();
-
 	reflected = reflect(normalise(ray->dir), &rec->normal);
 	scatter->ori.x = rec->p.x;
 	scatter->ori.y = rec->p.y;

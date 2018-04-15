@@ -14,7 +14,7 @@ static t_vector	background_color(int is_sky, const t_ray *prim_ray)
 		color.z = (1.0 - t) + t * 1.0;
 	}
 	else
-		color = new_vector(0,0,0);
+		color = new_vector(MIN_LIGHT,MIN_LIGHT,MIN_LIGHT);
 	return (color);
 }
 
@@ -33,7 +33,7 @@ t_vector		get_color(t_env *env, const t_ray *prim_ray, int depth)
 			emited.z = rec.obj_ptr->diffuse * rec.obj_ptr->blue;
 		}
 		else
-			emited = new_vector(0,0,0);
+			emited = new_vector(MIN_EMITED, MIN_EMITED, MIN_EMITED);
 		if (depth < RAY_DEPTH && scatter(prim_ray, &rec, &sec_ray))
 			return (get_texture(&rec, get_color(env, &sec_ray, depth + 1)));
 		else
@@ -50,9 +50,9 @@ static void		get_ray(t_ray *ray, t_camera *cam, int i, int j)
 
 	u = (float)(i + drand48()) / (float)WIN_WIDTH;
 	v = (float)(j + drand48()) / (float)WIN_HEIGH;
-	ray->dir.x = cam->up_left.x + u * cam->hori.x - v * cam->vert.x - cam->pos_x;
-	ray->dir.y = cam->up_left.y + u * cam->hori.y - v * cam->vert.y - cam->pos_y;
-	ray->dir.z = cam->up_left.z + u * cam->hori.z - v * cam->vert.z - cam->pos_z;
+	ray->dir.x = cam->up_left.x + u * cam->hori.x - v * cam->vert.x - cam->pos.x;
+	ray->dir.y = cam->up_left.y + u * cam->hori.y - v * cam->vert.y - cam->pos.y;
+	ray->dir.z = cam->up_left.z + u * cam->hori.z - v * cam->vert.z - cam->pos.z;
 }
 
 void			*thread_fnc(void *data)
@@ -101,9 +101,9 @@ void			draw_img(t_img *img, t_env *env)
 	thread_arg.env = env;
 	thread_arg.img = img;
 	init_camera(env->camera, (float)WIN_WIDTH / (float)WIN_HEIGH);
-	ray.ori.x = env->camera->pos_x;
-	ray.ori.y = env->camera->pos_y;
-	ray.ori.z = env->camera->pos_z;
+	ray.ori.x = env->camera->pos.x;
+	ray.ori.y = env->camera->pos.y;
+	ray.ori.z = env->camera->pos.z;
 	thread_arg.j = 0;
 	j = -1;
     pthread_mutex_init (&thread_arg.mutex, NULL);
@@ -115,24 +115,3 @@ void			draw_img(t_img *img, t_env *env)
 		pthread_join(thread[i], NULL);
 	free(thread);
 }
-
-/*
-void			render(t_env *env)
-{
-	t_img	*img;
-
-	(!(img = (t_img*)malloc(sizeof(t_img)))) ? exit(-1) : 0;
-	img->mlx = mlx_init();
-	img->win = mlx_new_window(img->mlx, WIN_WIDTH, WIN_HEIGH, "RT");
-	img->ptr = mlx_new_image(img->mlx, WIN_WIDTH, WIN_HEIGH);
-	img->buffer = (int*)mlx_get_data_addr(img->ptr, &(img->bpp), &(img->line_s),
-														&(img->endian));
-	mlx_hook(img->win, 17, 0, clean_quit, img);
-	mlx_key_hook(img->win, key_hook, img);
-	set_texture(env, img);
-	draw_img(img, env);
-	mlx_put_image_to_window(img->mlx, img->win, img->ptr, 0, 0);
-	printf("rendered\n");
-	mlx_loop(img->mlx);
-	destroy_img(img);
-}*/

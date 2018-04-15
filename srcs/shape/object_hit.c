@@ -1,22 +1,32 @@
 #include "shape.h"
 
-void		point_at(const t_ray *ray, float t, t_vector *tmp)
+void		point_at(const t_ray *ray, float t, t_vector *p)
 {
-	tmp->x = ray->dir.x * t;
-	tmp->y = ray->dir.y * t;
-	tmp->z = ray->dir.z * t;
+	p->x = ray->dir.x * t;
+	p->y = ray->dir.y * t;
+	p->z = ray->dir.z * t;
 
-	tmp->x = tmp->x + ray->ori.x;
-	tmp->y = tmp->y + ray->ori.y;
-	tmp->z = tmp->z + ray->ori.z;
+	p->x = p->x + ray->ori.x;
+	p->y = p->y + ray->ori.y;
+	p->z = p->z + ray->ori.z;
 }
 
-static int	object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
+int			object_hit(t_object *object, const t_ray *ray, t_hit_rec *rec, float closest)
 {
 	if (twl_strcmp(object->type, "sphere") == 0)
 		return (sphere_hit(object, ray, rec, closest));
 	if(twl_strcmp(object->type, "cylindre") == 0)
 		return (cylindre_hit(object,ray,rec,closest));
+	if(twl_strcmp(object->type, "tube") == 0)
+		return (tube_hit(object,ray,rec,closest));
+	if(twl_strcmp(object->type, "cube") == 0)
+		return (cube_hit(object,ray,rec,closest));
+	if(twl_strcmp(object->type, "x_rectangle") == 0)
+		return (yz_rectangle_hit(object,ray,rec,closest));
+	if(twl_strcmp(object->type, "y_rectangle") == 0)
+		return (xz_rectangle_hit(object,ray,rec,closest));
+	if(twl_strcmp(object->type, "z_rectangle") == 0)
+		return (xy_rectangle_hit(object,ray,rec,closest));
 	return(0);
 }
 
@@ -26,7 +36,6 @@ int			hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
 	t_lst_elem__	*next;
 	int				hit;
 	float			closest;
-	t_hit_rec		tmp_rec;
 
 	hit = 0;
 	closest = FLT_MAX;
@@ -34,10 +43,9 @@ int			hit(t_env *env, const t_ray *ray, t_hit_rec *rec)
 	while (elem)
 	{
 		next = elem->next;
-		if (object_hit(elem->data, ray, &tmp_rec, closest))
+		if (translate(elem->data, ray, rec, closest))
 		{
 			hit = 1;
-			*rec = tmp_rec;
 			closest = rec->t;
 			rec->obj_ptr = elem->data;
 		}

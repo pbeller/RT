@@ -11,11 +11,15 @@
 # include "env.h"
 # include "image.h"
 
+# define MIN_CLOSEST 0.001
+
 # define WIN_WIDTH 900
 # define WIN_HEIGH 450
 # define AA_STRENGH 10
-# define RAY_DEPTH 10
+# define RAY_DEPTH 20
 # define SKY_BACKGROUND 1
+# define MIN_LIGHT 0
+# define MIN_EMITED 0
 
 typedef struct s_ray
 {
